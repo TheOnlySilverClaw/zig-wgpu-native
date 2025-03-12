@@ -1,0 +1,1 @@
+Zig bindings for the [wgpu-native](https://github.com/gfx-rs/wgpu-native) graphics API.
