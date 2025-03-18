@@ -42,7 +42,7 @@ pub const ComputePassEncoder = opaque {
 
 pub const ComputePassDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView = .{},
     timestamp_write_count: usize,
     timestamp_writes: ?[*]const ComputePassTimestampWrite,
 };
@@ -57,30 +57,23 @@ pub const ComputePassTimestampWrite = extern struct {
 extern fn wgpuComputePassEncoderDispatchWorkgroups(encoder: *ComputePassEncoder,
     count_x: u32, count_y: u32, count_z: u32) void;
 
-extern fn wgpuComputePassEncoderDispatchWorkgroupsIndirect(
-    encoder: *ComputePassEncoder, indirect_buffer: buffer.Buffer, offset: u64) void;
+extern fn wgpuComputePassEncoderDispatchWorkgroupsIndirect(encoder: *ComputePassEncoder, indirect_buffer: buffer.Buffer, offset: u64) void;
 
 extern fn wgpuComputePassEncoderEnd(encoder: *ComputePassEncoder) void;
 
-extern fn wgpuComputePassEncoderInsertDebugMarker(
-    encoder: *ComputePassEncoder, label: [*:0]const u8) void;
+extern fn wgpuComputePassEncoderInsertDebugMarker(encoder: *ComputePassEncoder, label: shared.StringView) void;
 
 extern fn wgpuComputePassEncoderPopDebugGroup(encoder: *ComputePassEncoder) void;
 
-extern fn wgpuComputePassEncoderPushDebugGroup(
-    encoder: *ComputePassEncoder, label: [*:0]const u8) void;
+extern fn wgpuComputePassEncoderPushDebugGroup(encoder: *ComputePassEncoder, label: shared.StringView) void;
 
-extern fn wgpuComputePassEncoderSetBindGroup(encoder: *ComputePassEncoder,
-    index: u32, group: bind_group.BindGroup,
-    dynamic_offset_count: u32, dynamic_offsets: ?[*]const u32) void;
+extern fn wgpuComputePassEncoderSetBindGroup(encoder: *ComputePassEncoder, index: u32, group: bind_group.BindGroup, dynamic_offset_count: u32, dynamic_offsets: ?[*]const u32) void;
 
-extern fn wgpuComputePassEncoderSetLabel(encoder: *ComputePassEncoder, label: ?[*:0]const u8) void;
+extern fn wgpuComputePassEncoderSetLabel(encoder: *ComputePassEncoder, label: ?shared.StringView) void;
 
-extern fn wgpuComputePassEncoderSetPipeline(encoder: *ComputePassEncoder,
-    pipeline: compute_pipeline.ComputePipeline) void;
+extern fn wgpuComputePassEncoderSetPipeline(encoder: *ComputePassEncoder, pipeline: compute_pipeline.ComputePipeline) void;
 
-extern fn wgpuComputePassEncoderWriteTimestamp(encoder: *ComputePassEncoder,
-    query_set: query.QuerySet, index: u32) void;
+extern fn wgpuComputePassEncoderWriteTimestamp(encoder: *ComputePassEncoder, query_set: query.QuerySet, index: u32) void;
 
 extern fn wgpuComputePassEncoderReference(encoder: *ComputePassEncoder) void;
 

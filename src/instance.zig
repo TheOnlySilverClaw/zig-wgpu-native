@@ -22,7 +22,7 @@ pub const Instance = opaque {
 
     fn adapterCallback(status: RequestAdapterStatus, received: ?*adapter.Adapter,
         message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void {
-        
+
         // TODO figure out how to handle the message
         _ = message;
         _ = userdata2;
@@ -56,7 +56,7 @@ pub const RequestAdapterOptions = extern struct {
 
 pub const RequestAdapterResult = struct {
     adapter: ?*adapter.Adapter,
-    message: ?[*:0]const u8,
+    message: shared.StringView,
     status: RequestAdapterStatus
 };
 

@@ -24,7 +24,7 @@ pub const TextureViewDimension = enum(u32) {
 
 pub const TextureViewDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView,
     format: texture.TextureFormat,
     dimension: TextureViewDimension,
     base_mip_level: u32 = 0,
@@ -35,7 +35,7 @@ pub const TextureViewDescriptor = extern struct {
 };
 
 
-extern fn wgpuTextureViewSetLabel(texture_view: *TextureView, label: ?[*:0]const u8) void;
+extern fn wgpuTextureViewSetLabel(texture_view: *TextureView, label: ?shared.StringView) void;
 
 extern fn wgpuTextureViewReference(texture_view: *TextureView) void;
 

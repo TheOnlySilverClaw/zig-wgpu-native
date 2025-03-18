@@ -26,17 +26,16 @@ pub const QueryType = enum(u32) {
 
 pub const QuerySetDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView = .{},
     query_type: QueryType,
     count: u32,
     pipeline_statistics: ?[*]const PipelineStatisticName,
     pipeline_statistics_count: usize,
 };
 
-
 extern fn wgpuQuerySetDestroy(query_set: *QuerySet) void;
 
-extern fn wgpuQuerySetSetLabel(query_set: *QuerySet, label: ?[*:0]const u8) void;
+extern fn wgpuQuerySetSetLabel(query_set: *QuerySet, label: ?shared.StringView) void;
 
 extern fn wgpuQuerySetReference(query_set: *QuerySet) void;
 

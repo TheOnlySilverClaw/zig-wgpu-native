@@ -8,10 +8,10 @@ pub const Buffer = opaque {
     pub fn getConstMappedRange(buffer: *Buffer, comptime T: type, offset: usize, len: usize) ?[]const T {
         
         if (len == 0) return null;
-        
+
         const ptr = wgpuBufferGetConstMappedRange(buffer, offset, @sizeOf(T) * len);
         if (ptr == null) return null;
-        
+
         return @as([*]const T, @ptrCast(@alignCast(ptr)))[0..len];
     }
 
@@ -20,10 +20,10 @@ pub const Buffer = opaque {
     pub fn getMappedRange(buffer: *Buffer, comptime T: type, offset: usize, len: usize) ?[]T {
         
         if (len == 0) return null;
-        
+
         const ptr = wgpuBufferGetMappedRange(buffer, offset, @sizeOf(T) * len);
         if (ptr == null) return null;
-        
+
         return @as([*]T, @ptrCast(@alignCast(ptr)))[0..len];
     }
 
@@ -41,16 +41,15 @@ pub const Buffer = opaque {
     pub const reference = wgpuBufferReference;
 
     pub const release = wgpuBufferRelease;
-    
+
     pub const destroy = wgpuBufferDestroy;
 };
 
 pub const BufferDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
-    usage: BufferUsage,
-    size: u64,
-    mappedAtCreation: u32 = 0
+    label: shared.StringView = .{},
+    usage: BufferUsage, size: u64,
+    mapped_at_creation: u32 = 0
 };
 
 pub const MapAsyncStatus = enum(u32) {
@@ -102,9 +101,7 @@ pub const IndexFormat = enum(u32) {
 };
 
 
-extern fn wgpuBufferMapAsync(buffer: *Buffer,
-    mode: MapMode, offset: usize, size: usize,
-    callback: BufferMapCallback, userdata: ?*anyopaque) void;
+extern fn wgpuBufferMapAsync(buffer: *Buffer, mode: MapMode, offset: usize, size: usize, callback: BufferMapCallback, userdata: ?*anyopaque) void;
 
 extern fn wgpuBufferGetConstMappedRange(buffer: *Buffer, offset: usize, size: usize) ?*const anyopaque;
 
@@ -112,7 +109,7 @@ extern fn wgpuBufferGetMappedRange(buffer: *Buffer, offset: usize, size: usize) 
 
 extern fn wgpuBufferGetSize(buffer: *Buffer) u64;
 
-extern fn wgpuBufferSetLabel(buffer: *Buffer, label: ?[*:0]const u8) void;
+extern fn wgpuBufferSetLabel(buffer: *Buffer, label: shared.StringView) void;
 
 extern fn wgpuBufferUnmap(buffer: *Buffer) void;
 

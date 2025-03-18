@@ -49,7 +49,7 @@ pub const RenderBundleEncoder = opaque {
 
 pub const RenderBundleEncoderDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView = .{},
     color_formats_count: usize,
     color_formats: ?[*]const texture.TextureFormat,
     depth_stencil_format: texture.TextureFormat,
@@ -78,7 +78,7 @@ extern fn wgpuRenderBundleEncoderInsertDebugMarker(encoder: *RenderBundleEncoder
 
 extern fn wgpuRenderBundleEncoderPopDebugGroup(encoder: *RenderBundleEncoder) void;
 
-extern fn wgpuRenderBundleEncoderPushDebugGroup(encoder: *RenderBundleEncoder, label: [*:0]const u8) void;
+extern fn wgpuRenderBundleEncoderPushDebugGroup(encoder: *RenderBundleEncoder, label: shared.StringView) void;
 
 extern fn wgpuRenderBundleEncoderSetBindGroup(encoder: *RenderBundleEncoder,
     index: u32, group: bind_group.BindGroup,
@@ -89,7 +89,7 @@ extern fn wgpuRenderBundleEncoderSetIndexBuffer(encoder: *RenderBundleEncoder,
 
 extern fn wgpuRenderBundleEncoderSetPipeline(encoder: *RenderBundleEncoder, pipeline: render_pipeline.RenderPipeline) void;
 
-extern fn wgpuRenderBundleEncoderSetLabel(encoder: *RenderBundleEncoder, label: ?[*:0]const u8) void;
+extern fn wgpuRenderBundleEncoderSetLabel(encoder: *RenderBundleEncoder, label: ?shared.StringView) void;
 
 extern fn wgpuRenderBundleEncoderSetVertexBuffer(encoder: *RenderBundleEncoder,
     slot: u32, vertex_buffer: buffer.Buffer, offset: u64, size: u64) void;

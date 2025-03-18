@@ -25,7 +25,7 @@ pub const BindGroupEntry = extern struct {
 
 pub const BindGroupDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView = .{},
     layout: *layout.BindGroupLayout,
     entry_count: usize,
     entries: ?[*]const BindGroupEntry,

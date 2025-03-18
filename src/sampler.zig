@@ -29,7 +29,7 @@ pub const MipmapFilterMode = FilterMode;
 
 pub const SamplerDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView = .{},
     address_mode_u: AddressMode,
     address_mode_v: AddressMode,
     address_mode_w: AddressMode,

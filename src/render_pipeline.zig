@@ -167,7 +167,7 @@ pub const VertexBufferLayout = extern struct {
 pub const VertexState = extern struct {
     next: ?*const shared.ChainedStruct = null,
     module: *shader.ShaderModule,
-    entry_point: [*:0]const u8,
+    entry_point: shared.StringView,
     constant_count: usize,
     constants: ?[*]const shared.ConstantEntry,
     buffer_count: usize,
@@ -195,7 +195,7 @@ pub const ColorTargetState = extern struct {
 pub const FragmentState = extern struct {
     next: ?*const shared.ChainedStruct = null,
     module: *shader.ShaderModule,
-    entry_point: [*:0]const u8,
+    entry_point: shared.StringView,
     constant_count: usize,
     constants: ?[*]const shared.ConstantEntry,
     target_count: usize,
@@ -235,12 +235,12 @@ pub const MultisampleState = extern struct {
     next: ?*const shared.ChainedStruct = null,
     count: u32 = 1,
     mask: u32 = shared.undefined_u32,
-    alpha_to_coverage_enabled: bool = false
+    alpha_to_coverage_enabled: shared.Bool = 0
 };
 
 pub const RenderPipelineDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView,
     layout: ?*layout.PipelineLayout,
     vertex: VertexState,
     primitive: PrimitiveState,
@@ -252,7 +252,7 @@ pub const RenderPipelineDescriptor = extern struct {
 
 extern fn wgpuRenderPipelineGetBindGroupLayout(pipeline: *RenderPipeline, index: u32) *bind_group_layout.BindGroupLayout;
 
-extern fn wgpuRenderPipelineSetLabel(pipeline: *RenderPipeline, label: ?[*:0]const u8) void;
+extern fn wgpuRenderPipelineSetLabel(pipeline: *RenderPipeline, label: ?shared.StringView) void;
 
 extern fn wgpuRenderPipelineReference(pipeline: *RenderPipeline) void;
 

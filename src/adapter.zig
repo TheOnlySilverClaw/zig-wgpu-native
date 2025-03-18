@@ -46,10 +46,10 @@ pub const Adapter = opaque {
 
 pub const AdapterInfo = extern struct {
     next: ?*shared.ChainedStructOut = null,
-    vendor: [*:0]const u8,
-    architecture: [*:0]const u8,
-    device: [*:0]const u8,
-    description: [*:0]const u8,
+    vendor: shared.StringView,
+    architecture: shared.StringView,
+    device: shared.StringView,
+    description: shared.StringView,
     backend_type: BackendType,
     adapter_type: AdapterType,
     vendor_id: u32,
@@ -83,6 +83,14 @@ pub const PowerPreference = enum(u32) {
 
 pub const RequestDeviceCallback = fn (status: RequestDeviceStatus, device: *device.Device,
     message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+
+pub const RequestDeviceCallbackInfo = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    mode: shared.CallbackMode,
+    callback: *const RequestDeviceCallback,
+    userdata1: ?*shared.UserData,
+    userdata2: ?*shared.UserData
+};
 
 pub const RequestDeviceStatus = enum(u32) {
     success,

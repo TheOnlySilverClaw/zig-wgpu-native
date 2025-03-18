@@ -81,7 +81,7 @@ pub const SurfaceGetCurrentTextureStatus = enum(u32) {
 
 pub const SurfaceTexture = extern struct {
     texture: *texture.Texture,
-    suboptimal: bool,
+    suboptimal: shared.Bool,
     status: SurfaceGetCurrentTextureStatus  
 };
 
@@ -94,7 +94,7 @@ extern fn wgpuSurfaceGetCurrentTexture(surface: *Surface, surface_texture: *cons
 
 extern fn wgpuSurfacePresent(surface: *Surface) void;
 
-extern fn wgpuSurfaceSetLabel(surface: *Surface, label: [*:0]const u8) void;
+extern fn wgpuSurfaceSetLabel(surface: *Surface, label: shared.StringView) void;
 
 extern fn wgpuSurfaceUnconfigure(surface: *Surface) void;
 

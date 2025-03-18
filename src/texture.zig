@@ -39,7 +39,7 @@ pub const TextureDataLayout = extern struct {
 
 pub const TextureDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView = .{},
     usage: TextureUsage,
     dimension: TextureDimension,
     size: shared.Extent3D,
@@ -171,7 +171,7 @@ extern fn wgpuTextureCreateView(texture: *Texture, descriptor: ?*const view.Text
 
 extern fn wgpuTextureDestroy(texture: *Texture) void;
 
-extern fn wgpuTextureSetLabel(texture: *Texture, label: ?[*:0]const u8) void;
+extern fn wgpuTextureSetLabel(texture: *Texture, label: ?shared.StringView) void;
 
 extern fn wgpuTextureReference(texture: *Texture) void;
 

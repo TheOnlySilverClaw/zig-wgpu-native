@@ -13,7 +13,7 @@ pub const BindGroupLayout = opaque {
 
 pub const BindGroupLayoutDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView = .{},
     entry_count: usize,
     entries: ?[*]const BindGroupLayoutEntry,
 };
@@ -104,7 +104,7 @@ pub const TextureBindingLayout = extern struct {
 };
 
 
-extern fn wgpuBindGroupLayoutSetLabel(layout: *BindGroupLayout, label: ?[*:0]const u8) void;
+extern fn wgpuBindGroupLayoutSetLabel(layout: *BindGroupLayout, label: shared.StringView) void;
 
 extern fn wgpuBindGroupLayoutReference(layout: *BindGroupLayout) void;
 

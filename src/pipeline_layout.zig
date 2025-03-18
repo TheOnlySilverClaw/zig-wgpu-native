@@ -12,7 +12,7 @@ pub const PipelineLayout = opaque {
 
 pub const PipelineLayoutDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView = .{},
     bind_group_layout_count: usize,
     bind_group_layouts: ?[*]const *bind_group_layout.BindGroupLayout,
 };

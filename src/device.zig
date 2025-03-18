@@ -84,20 +84,20 @@ pub const CreatePipelineAsyncStatus = enum(u32) {
 
 pub const DeviceDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView = .{},
     required_features_count: usize = 0,
     required_features: ?[*]const support.FeatureName = null,
     required_limits: ?[*]const support.RequiredLimits = null,
     default_queue: queue.QueueDescriptor = .{},
-    device_lost_callback: ?DeviceLostCallback = null,
-    device_lost_user_data: ?*anyopaque = null,
+    device_lost_callback: ?*const DeviceLostCallback = null,
+    device_lost_user_data: ?*shared.UserData = null,
 };
 
 pub const DeviceError = error {
     Unavailable
 };
 
-pub const DeviceLostCallback = *fn (*const Device, reason: DeviceLostReason,
+pub const DeviceLostCallback = fn (*const Device, reason: DeviceLostReason,
     message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
 pub const DeviceLostReason = enum(u32) {
@@ -144,7 +144,7 @@ extern fn wgpuDeviceCreateComputePipeline(device: *Device,
 extern fn wgpuDeviceCreateComputePipelineAsync(device: *Device,
     descriptor: *const compute_pipeline.ComputePipelineDescriptor,
     callback: *const compute_pipeline.CreateComputePipelineAsyncCallback,
-    userdata: ?*anyopaque) void;
+    userdata: ?*shared.UserData) void;
 
 extern fn wgpuDeviceCreatePipelineLayout(device: *Device,
     descriptor: *const pipeline_layout.PipelineLayoutDescriptor) *pipeline_layout.PipelineLayout;
@@ -161,7 +161,7 @@ extern fn wgpuDeviceCreateRenderPipeline(device: *Device,
 extern fn wgpuDeviceCreateRenderPipelineAsync(device: *Device,
     descriptor: *const render_pipeline.RenderPipelineDescriptor,
     callback: render_pipeline.CreateRenderPipelineAsyncCallback,
-    userdata: ?*anyopaque) void;
+    userdata: ?*shared.UserData) void;
 
 extern fn wgpuDeviceCreateSampler(device: *Device,
     descriptor: *const sampler.SamplerDescriptor) *sampler.Sampler;
@@ -189,12 +189,12 @@ extern fn wgpuDevicePopErrorScope(device: *Device, callback: shared.ErrorCallbac
 extern fn wgpuDevicePushErrorScope(device: *Device, filter: ErrorFilter) void;
 
 extern fn wgpuDeviceSetDeviceLostCallback(device: *Device,
-    callback: DeviceLostCallback, userdata: ?*anyopaque) void;
+    callback: DeviceLostCallback, userdata: ?*shared.UserData) void;
 
-extern fn wgpuDeviceSetLabel(device: *Device, label: ?[*:0]const u8) void;
+extern fn wgpuDeviceSetLabel(device: *Device, label: ?shared.StringView) void;
 
 extern fn wgpuDeviceSetUncapturedErrorCallback(device: *Device,
-    callback: shared.ErrorCallback, userdata: ?*anyopaque) void;
+    callback: shared.ErrorCallback, userdata: ?*shared.UserData) void;
 
 extern fn wgpuDeviceReference(device: *Device) void;
 

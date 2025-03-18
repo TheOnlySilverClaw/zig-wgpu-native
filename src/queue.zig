@@ -29,35 +29,30 @@ pub const Queue = opaque {
 
 pub const QueueDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView = .{},
 };
 
-pub const QueueWorkDoneCallback = fn (status: QueueWorkDoneStatus, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+pub const QueueWorkDoneCallbackInfo = fn (status: QueueWorkDoneStatus, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
-pub const QueueWorkDoneStatus = enum(u32) {
-    success,
-    instance_dropped,
-    @"error",
-    unknown
+pub const QueueWorkDoneCallback = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    mode: shared.CallbackMode, callback:
+    *const QueueWorkDoneCallback,
+    userdata1: ?*shared.UserData,
+    userdata2: ?*shared.UserData
 };
 
+pub const QueueWorkDoneStatus = enum(u32) { success, instance_dropped, @"error", unknown };
 
-extern fn wgpuQueueOnSubmittedWorkDone(queue: Queue,
-    signal_value: u64, callback: QueueWorkDoneCallback, userdata: ?*anyopaque) void;
+extern fn wgpuQueueOnSubmittedWorkDone(queue: Queue, signal_value: u64, callback: QueueWorkDoneCallback, userdata: ?*anyopaque) void;
 
-extern fn wgpuQueueSetLabel(queue: *Queue, label: ?[*:0]const u8) void;
+extern fn wgpuQueueSetLabel(queue: *Queue, label: ?shared.StringView) void;
 
 extern fn wgpuQueueSubmit(queue: *Queue, count: usize, commands: [*]const *command_buffer.CommandBuffer) void;
 
-extern fn wgpuQueueWriteBuffer(queue: *Queue,
-    target: *buffer.Buffer, offset: u64, data: *const anyopaque, size: usize) void;
+extern fn wgpuQueueWriteBuffer(queue: *Queue, target: *buffer.Buffer, offset: u64, data: *const anyopaque, size: usize) void;
 
-extern fn wgpuQueueWriteTexture(queue: *Queue,
-    destination: *const texture.ImageCopyTexture,
-    data: *const anyopaque,
-    size: usize,
-    layout: *const texture.TextureDataLayout,
-    extent: *const shared.Extent3D) void;
+extern fn wgpuQueueWriteTexture(queue: *Queue, destination: *const texture.ImageCopyTexture, data: *const anyopaque, size: usize, layout: *const texture.TextureDataLayout, extent: *const shared.Extent3D) void;
 
 extern fn wgpuQueueReference(queue: *Queue) void;
 

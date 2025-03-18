@@ -1,7 +1,5 @@
 const maxInt = @import("std").math.maxInt;
 
-pub const size_max = maxInt(isize);
-
 pub const undefined_u32 = maxInt(u32);
 pub const undefined_u64 = maxInt(u64);
 
@@ -35,7 +33,7 @@ pub const CompareFunction = enum(u32) {
 
 pub const ConstantEntry = extern struct {
     next: ?*const ChainedStruct = null,
-    key: [*:0]const u8,
+    key: StringView,
     value: f64,
 };
 
@@ -82,13 +80,18 @@ pub const Status = enum (u32) {
 };
 
 pub const StringView = extern struct {
-    data: ?[*]const u8,
-    length: usize,
+    data: ?[*]const u8 = null,
+    length: usize = maxInt(usize),
 
-    pub const NULL = StringView {
-        .data = null,
-        .length = size_max
-    };
+    pub const empty = StringView{ .data = null, .length = 0 };
+
+    pub fn sized(slice: []const u8) StringView {
+        return .{ .data = slice.ptr, .length = slice.len };
+    }
+
+    pub fn terminated(pointer: StringView) StringView {
+        return .{ .data = pointer, .length = maxInt(usize) };
+    }
 };
 
 pub const SType = enum(u32) {

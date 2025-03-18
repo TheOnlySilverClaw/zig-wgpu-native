@@ -20,7 +20,7 @@ pub const CreateComputePipelineAsyncCallback = fn (status: device.CreatePipeline
 
 pub const ComputePipelineDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null,
+    label: shared.StringView,
     layout: ?layout.PipelineLayout = null,
     compute: ProgrammableStageDescriptor
 };
@@ -28,7 +28,7 @@ pub const ComputePipelineDescriptor = extern struct {
 pub const ProgrammableStageDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
     module: shader.ShaderModule,
-    entry_point: [*:0]const u8,
+    entry_point: shared.StringView,
     constant_count: usize = 0,
     constants: ?[*]const shared.ConstantEntry = null
 };
@@ -36,7 +36,7 @@ pub const ProgrammableStageDescriptor = extern struct {
 
 extern fn wgpuComputePipelineGetBindGroupLayout(pipeline: *ComputePipeline, index: u32) *bind_group_layout.BindGroupLayout;
 
-extern fn wgpuComputePipelineSetLabel(pipeline: *ComputePipeline, label: ?[*:0]const u8) void;
+extern fn wgpuComputePipelineSetLabel(pipeline: *ComputePipeline, label: ?shared.StringView) void;
 
 extern fn wgpuComputePipelineReference(pipeline: *ComputePipeline) void;
 

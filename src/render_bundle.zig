@@ -11,7 +11,7 @@ pub const RenderBundle = opaque {
 
 pub const RenderBundleDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    label: ?[*:0]const u8 = null
+    label: shared.StringView
 };
 
 
