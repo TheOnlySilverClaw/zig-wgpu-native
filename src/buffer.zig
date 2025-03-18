@@ -61,10 +61,7 @@ pub const MapAsyncStatus = enum(u32) {
     unknown
 };
 
-pub const BufferMapCallback = *const fn (
-    status: MapAsyncStatus,
-    userdata: ?*anyopaque
-) callconv(.C) void;
+pub const BufferMapCallback = fn (status: MapAsyncStatus, message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
 pub const BufferMapState = enum(u32) {
     unmapped,

@@ -18,11 +18,7 @@ pub const CompilationInfo = extern struct {
     messages: ?[*]const CompilationMessage
 };
 
-pub const CompilationInfoCallback = *const fn (
-    status: CompilationInfoRequestStatus,
-    info: *const CompilationInfo,
-    userdata: ?*anyopaque
-) callconv(.C) void;
+pub const CompilationInfoCallback = fn (status: CompilationInfoRequestStatus, compilation_info: *const CompilationInfo, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
 pub const CompilationInfoRequestStatus = enum(u32) {
     success,

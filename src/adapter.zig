@@ -22,18 +22,19 @@ pub const Adapter = opaque {
     pub fn requestDeviceSync(adapter: *Adapter, descriptor: ?*const device.DeviceDescriptor) device.DeviceError!*device.Device {
 
         var result: ?*device.Device = null;
-        wgpuAdapterRequestDevice(adapter, descriptor, deviceCallback, @ptrCast(&result));
+        wgpuAdapterRequestDevice(adapter, descriptor, deviceCallback, @ptrCast(&result), null);
         return result orelse device.DeviceError.Unavailable;
     }
 
     fn deviceCallback(status: RequestDeviceStatus, received: ?*device.Device,
-        message: ?[*:0]const u8, userdata: ?shared.UserData) callconv(.C) void {
+        message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void {
         
         // TODO figure out how to handle the message
         _ = message;
+        _ = userdata2;
 
-        if(status == .success and received != null and userdata != null) {
-            const result = @as(**device.Device, @alignCast(@ptrCast(userdata)));
+        if(status == .success and received != null and userdata1 != null) {
+            const result = @as(**device.Device, @alignCast(@ptrCast(userdata1)));
             result.* = received.?;
         }
     }
@@ -80,12 +81,8 @@ pub const PowerPreference = enum(u32) {
     high_performance
 };
 
-pub const RequestDeviceCallback = *const fn (
-    status: RequestDeviceStatus,
-    device: *device.Device,
-    message: ?[*:0]const u8,
-    userdata: ?*anyopaque,
-) callconv(.C) void;
+pub const RequestDeviceCallback = fn (status: RequestDeviceStatus, device: *device.Device,
+    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
 pub const RequestDeviceStatus = enum(u32) {
     success,
@@ -106,7 +103,7 @@ extern fn wgpuAdapterGetInfo(adapter: *Adapter, properties: *AdapterInfo) void;
 extern fn wgpuAdapterHasFeature(adapter: *Adapter, feature: support.FeatureName) bool;
 
 extern fn wgpuAdapterRequestDevice(adapter: *Adapter, descriptor: ?*const device.DeviceDescriptor,
-    callback: RequestDeviceCallback, userdata: ?*anyopaque) void;
+    callback: *const RequestDeviceCallback, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) void;
 
 extern fn wgpuAdapterReference(adapter: *Adapter) void;
 

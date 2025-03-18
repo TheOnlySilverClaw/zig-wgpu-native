@@ -15,21 +15,22 @@ pub const ComputePipeline = opaque {
     pub const release = wgpuComputePipelineRelease;
 };
 
-pub const CreateComputePipelineAsyncCallback = *const fn (
-    status: device.CreatePipelineAsyncStatus,
-    pipeline: *ComputePipeline,
-    message: ?[*:0]const u8,
-    userdata: ?*anyopaque,
-) callconv(.C) void;
+pub const CreateComputePipelineAsyncCallback = fn (status: device.CreatePipelineAsyncStatus, pipeline: *ComputePipeline,
+    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
-pub const ComputePipelineDescriptor = extern struct { next: ?*const shared.ChainedStruct = null, label: ?[*:0]const u8 = null, layout: ?layout.PipelineLayout = null, compute: ProgrammableStageDescriptor };
+pub const ComputePipelineDescriptor = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    label: ?[*:0]const u8 = null,
+    layout: ?layout.PipelineLayout = null,
+    compute: ProgrammableStageDescriptor
+};
 
 pub const ProgrammableStageDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
     module: shader.ShaderModule,
     entry_point: [*:0]const u8,
     constant_count: usize = 0,
-    constants: ?[*]const shared.ConstantEntry = null,
+    constants: ?[*]const shared.ConstantEntry = null
 };
 
 

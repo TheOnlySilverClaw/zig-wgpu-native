@@ -13,7 +13,7 @@ pub const OptionalBool = enum(u32) {
     undefined
 };
 
-pub const UserData = *anyopaque;
+pub const UserData = anyopaque;
 
 pub const CallbackMode = enum (u32) {
     wait_only,
@@ -56,12 +56,6 @@ pub const Color = extern struct {
     a: f64,
 };
 
-pub const ErrorCallback = *const fn (
-    type: ErrorType,
-    message: ?[*:0]const u8,
-    userdata: ?*anyopaque,
-) callconv(.C) void;
-
 pub const ErrorType = enum(u32) {
     no_error,
     validation,
@@ -87,7 +81,7 @@ pub const Status = enum (u32) {
     @"error"
 };
 
-pub const StringView = struct {
+pub const StringView = extern struct {
     data: ?[*]const u8,
     length: usize,
 

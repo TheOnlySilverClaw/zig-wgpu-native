@@ -48,12 +48,8 @@ pub const BlendOperation = enum(u32) {
     max
 };
 
-pub const CreateRenderPipelineAsyncCallback = *const fn (
-    status: device.CreatePipelineAsyncStatus,
-    pipeline: RenderPipeline,
-    message: ?[*:0]const u8,
-    userdata: ?*anyopaque
-) callconv(.C) void;
+pub const CreateRenderPipelineAsyncCallback = fn (status: device.CreatePipelineAsyncStatus, pipeline: RenderPipeline,
+    message: shared.StringView, userdata: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
 pub const CullMode = enum(u32) {
     undefined,

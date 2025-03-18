@@ -97,11 +97,8 @@ pub const DeviceError = error {
     Unavailable
 };
 
-pub const DeviceLostCallback = *const fn (
-    reason: DeviceLostReason,
-    message: ?[*:0]const u8,
-    userdata: ?*anyopaque
-) callconv(.C) void;
+pub const DeviceLostCallback = *fn (*const Device, reason: DeviceLostReason,
+    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
 pub const DeviceLostReason = enum(u32) {
     unknown,
@@ -116,11 +113,18 @@ pub const ErrorFilter = enum(u32) {
     internal
 };
 
+pub const PopErrorScopeCallback = fn(status: PopErrorScopeStatus, type: shared.ErrorType,
+    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+
 pub const PopErrorScopeStatus = enum(u32) {
     success,
     instance_dropped,
     empty_stack
 };
+
+pub const UncapturedErrorCallback = fn (device: *const Device, type: shared.ErrorType,
+    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+
 
 extern fn wgpuDeviceCreateBindGroup(device: *Device,
     descriptor: *const bind_group.BindGroupDescriptor) *bind_group.BindGroup;
@@ -139,7 +143,7 @@ extern fn wgpuDeviceCreateComputePipeline(device: *Device,
 
 extern fn wgpuDeviceCreateComputePipelineAsync(device: *Device,
     descriptor: *const compute_pipeline.ComputePipelineDescriptor,
-    callback: compute_pipeline.CreateComputePipelineAsyncCallback,
+    callback: *const compute_pipeline.CreateComputePipelineAsyncCallback,
     userdata: ?*anyopaque) void;
 
 extern fn wgpuDeviceCreatePipelineLayout(device: *Device,

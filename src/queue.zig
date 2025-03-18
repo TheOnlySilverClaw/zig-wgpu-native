@@ -32,10 +32,7 @@ pub const QueueDescriptor = extern struct {
     label: ?[*:0]const u8 = null,
 };
 
-pub const QueueWorkDoneCallback = *const fn (
-    status: QueueWorkDoneStatus,
-    userdata: ?*anyopaque,
-) callconv(.C) void;
+pub const QueueWorkDoneCallback = fn (status: QueueWorkDoneStatus, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
 pub const QueueWorkDoneStatus = enum(u32) {
     success,
