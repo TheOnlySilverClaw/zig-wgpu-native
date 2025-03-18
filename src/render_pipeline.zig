@@ -147,7 +147,7 @@ pub const ColorWriteMask = packed struct(u64) {
     alpha: bool = false,
     _padding: u60 = 0,
 
-    pub const all = ColorWriteMask{
+    pub const all = ColorWriteMask {
         .red = true,
         .green = true,
         .blue = true,

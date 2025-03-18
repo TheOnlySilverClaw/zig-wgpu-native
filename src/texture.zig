@@ -163,7 +163,6 @@ pub const TextureUsage = packed struct(u64) {
     texture_binding: bool = false,
     storage_binding: bool = false,
     render_attachment: bool = false,
-    transient_attachment: bool = false,
     _padding: u58 = 0,
 };
 
