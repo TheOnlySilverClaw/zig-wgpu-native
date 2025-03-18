@@ -89,7 +89,8 @@ pub const RequestDeviceCallback = *const fn (
 
 pub const RequestDeviceStatus = enum(u32) {
     success,
-    failure,
+    instance_dropped,
+    @"error",
     unknown
 };
 

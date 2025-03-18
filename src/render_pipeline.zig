@@ -19,6 +19,7 @@ pub const RenderPipeline = opaque {
 };
 
 pub const BlendFactor = enum(u32) {
+    undefined,
     zero,
     one,
     src,
@@ -31,10 +32,15 @@ pub const BlendFactor = enum(u32) {
     one_minus_dst_alpha,
     src_alpha_saturated,
     constant,
-    one_minus_constant
+    one_minus_constant,
+    src1,
+    one_minus_src1,
+    src1_alpha,
+    one_minus_src1_alpha,
 };
 
 pub const BlendOperation = enum(u32) {
+    undefined,
     add,
     subtract,
     reverse_subtract,
@@ -50,17 +56,20 @@ pub const CreateRenderPipelineAsyncCallback = *const fn (
 ) callconv(.C) void;
 
 pub const CullMode = enum(u32) {
+    undefined,
     none,
     front,
     back
 };
 
 pub const FrontFace = enum(u32) {
+    undefined,
     counter_clockwise,
     clockwise
 };
 
 pub const PrimitiveTopology = enum(u32) {
+    undefined,
     point_list,
     line_list,
     line_strip,
@@ -69,6 +78,7 @@ pub const PrimitiveTopology = enum(u32) {
 };
 
 pub const StencilOperation = enum(u32) {
+    undefined,
     keep,
     zero,
     replace,
@@ -80,23 +90,31 @@ pub const StencilOperation = enum(u32) {
 };
 
 pub const VertexFormat = enum(u32) {
-    undefined,
+    uint8,
     uint8x2,
     uint8x4,
+    sint8,
     sint8x2,
     sint8x4,
+    unorm8,
     unorm8x2,
     unorm8x4,
+    snorm8,
     snorm8x2,
     snorm8x4,
+    uint16,
     uint16x2,
     uint16x4,
+    sint16,
     sint16x2,
     sint16x4,
+    unorm16,
     unorm16x2,
     unorm16x4,
+    snorm16,
     snorm16x2,
     snorm16x4,
+    float16,
     float16x2,
     float16x4,
     float32,
@@ -110,21 +128,24 @@ pub const VertexFormat = enum(u32) {
     sint32,
     sint32x2,
     sint32x3,
-    sint32x4
+    sint32x4,
+    unorm_10_10_2,
+    unorm_8x4_bgra
 };
 
 pub const VertexStepMode = enum(u32) {
+    vertex_buffer_not_used,
+    undefined,
     vertex,
-    instance,
-    unused
+    instance
 };
 
-pub const ColorWriteMask = packed struct(u32) {
+pub const ColorWriteMask = packed struct(u64) {
     red: bool = false,
     green: bool = false,
     blue: bool = false,
     alpha: bool = false,
-    _padding: u28 = 0,
+    _padding: u60 = 0,
 
     pub const all = ColorWriteMask{
         .red = true,
@@ -203,12 +224,12 @@ pub const StencilFaceState = extern struct {
 pub const DepthStencilState = extern struct {
     next: ?*const shared.ChainedStruct = null,
     format: texture.TextureFormat,
-    depth_write_enabled: u32 = 1.0,
+    depth_write_enabled: u32 = 1,
     depth_compare: shared.CompareFunction = .always,
     stencil_front: StencilFaceState = .{},
     stencil_back: StencilFaceState = .{},
-    stencil_read_mask: u32 = shared.Undefined,
-    stencil_write_mask: u32 = shared.Undefined,
+    stencil_read_mask: u32 = shared.undefined_u32,
+    stencil_write_mask: u32 = shared.undefined_u32,
     depth_bias: i32 = 0,
     depth_bias_slope_scale: f32 = 0.0,
     depth_bias_clamp: f32 = 0.0
@@ -217,7 +238,7 @@ pub const DepthStencilState = extern struct {
 pub const MultisampleState = extern struct {
     next: ?*const shared.ChainedStruct = null,
     count: u32 = 1,
-    mask: u32 = shared.Undefined,
+    mask: u32 = shared.undefined_u32,
     alpha_to_coverage_enabled: bool = false
 };
 

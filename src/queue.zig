@@ -39,9 +39,9 @@ pub const QueueWorkDoneCallback = *const fn (
 
 pub const QueueWorkDoneStatus = enum(u32) {
     success,
-    failure,
-    unknown,
-    device_lost
+    instance_dropped,
+    @"error",
+    unknown
 };
 
 

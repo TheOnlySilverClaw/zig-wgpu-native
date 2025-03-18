@@ -22,11 +22,20 @@ pub const Surface = opaque {
     pub const release = wgpuSurfaceRelease;
 };
 
+pub const CompositeAlphaMode = enum(u32) {
+    auto,
+    opaque_,
+    premultiplied,
+    unpremultiplied,
+    inherit
+};
 
 pub const PresentMode = enum(u32) {
-    immediate,
-    mailbox,
+    undefined,
     fifo,
+    fifo_relaxed,
+    immediate,
+    mailbox
 };
 
 pub const SurfaceCapabilities = extern struct {
@@ -37,7 +46,7 @@ pub const SurfaceCapabilities = extern struct {
     present_mode_count: usize,
     present_modes: [*]const PresentMode,
     alpha_mode_count: usize,
-    alpha_modes: [*]const texture.AlphaMode
+    alpha_modes: [*]const CompositeAlphaMode
 };
 
 pub const SurfaceConfiguration = extern struct {
@@ -47,7 +56,7 @@ pub const SurfaceConfiguration = extern struct {
     usage: texture.TextureUsage,
     view_format_count: usize,
     view_formats: ?[*]const texture.TextureFormat,
-    alpha_mode: texture.AlphaMode,
+    alpha_mode: CompositeAlphaMode,
     width: u32,
     height: u32,
     present_mode: PresentMode
@@ -60,12 +69,14 @@ pub const SurfaceDescriptor = extern struct {
 };
 
 pub const SurfaceGetCurrentTextureStatus = enum(u32) {
-    success,
+    success_optimal,
+    success_suboptimal,
     timeout,
     outdated,
     lost,
-    memory,
-    device_lost
+    out_of_memory,
+    device_lost,
+    @"error"
 };
 
 pub const SurfaceTexture = extern struct {

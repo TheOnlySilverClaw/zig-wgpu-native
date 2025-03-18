@@ -1,19 +1,28 @@
 const shared = @import("shared.zig");
 
+pub const FeatureLevel = enum(u32) {
+    compatibility,
+    core
+};
+
 pub const FeatureName = enum(u32) {
     undefined,
     depth_clip_control,
     depth32_float_stencil8,
     timestamp_query,
-    pipeline_statistics_query,
     texture_compression_bc,
+    texture_compression_bc_sliced_3d,
     texture_compression_etc2,
     texture_compression_astc,
+    texture_compression_astc_sliced_3d,
     indirect_first_instance,
     shader_f16,
     rg11_b10_ufloat_renderable,
     bgra8_unorm_storage,
-    float32_filterable
+    float32_filterable,
+    float32_blendable,
+    clip_distances,
+    dual_source_blending
 };
 
 pub const Limits = extern struct {
@@ -63,4 +72,11 @@ pub const RequiredLimits = extern struct {
 pub const SupportedLimits = extern struct {
     next: ?*shared.ChainedStructOut = null,
     limits: Limits = .{},
+};
+
+pub const WGSLLanguageFeatureName = enum(u32) {
+    readonly_and_readwrite_storage_textures,
+    packed_4x8_integer_dot_product,
+    unrestricted_pointer_parameters,
+    pointer_composite_access
 };

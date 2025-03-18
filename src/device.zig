@@ -76,10 +76,9 @@ pub const Device = opaque {
 
 pub const CreatePipelineAsyncStatus = enum(u32) {
     success,
+    instance_dropped,
     validation_error,
     internal_error,
-    device_lost,
-    device_destroyed,
     unknown
 };
 
@@ -105,8 +104,10 @@ pub const DeviceLostCallback = *const fn (
 ) callconv(.C) void;
 
 pub const DeviceLostReason = enum(u32) {
-    undefined,
-    destroyed
+    unknown,
+    destroyed,
+    instance_dropped,
+    failed_creation
 };
 
 pub const ErrorFilter = enum(u32) {
@@ -115,6 +116,11 @@ pub const ErrorFilter = enum(u32) {
     internal
 };
 
+pub const PopErrorScopeStatus = enum(u32) {
+    success,
+    instance_dropped,
+    empty_stack
+};
 
 extern fn wgpuDeviceCreateBindGroup(device: *Device,
     descriptor: *const bind_group.BindGroupDescriptor) *bind_group.BindGroup;

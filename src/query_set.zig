@@ -21,7 +21,6 @@ pub const PipelineStatisticName = enum(u32) {
 
 pub const QueryType = enum(u32) {
     occlusion,
-    pipeline_statistics,
     timestamp
 };
 

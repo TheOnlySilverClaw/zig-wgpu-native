@@ -1,6 +1,7 @@
 const shared = @import("shared.zig");
 const adapter = @import("adapter.zig");
 const surface = @import("surface.zig");
+const support = @import("support.zig");
 
 pub const createInstance = wgpuCreateInstance;
 
@@ -49,10 +50,11 @@ pub const RequestAdapterCallback = *const fn (
 
 pub const RequestAdapterOptions = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    compatible_surface: ?*surface.Surface,
+    feature_level: support.FeatureLevel,
     power_preference: adapter.PowerPreference,
+    force_fallback_adapter: shared.Bool = 0,
     backend_type: adapter.BackendType = .undefined,
-    force_fallback_adapter: bool = false,
+    compatible_surface: ?*surface.Surface,
 };
 
 pub const RequestAdapterResult = struct {
@@ -66,6 +68,14 @@ pub const RequestAdapterStatus = enum(u32) {
     unavailable,
     failure,
     unknown
+};
+
+pub const WaitStatus = enum(u32) {
+    success,
+    timed_out,
+    unsupported_timeout,
+    unsupported_count,
+    unsupported_mixed_sources
 };
 
 extern fn wgpuCreateInstance(descriptor: ?* const InstanceDescriptor) *Instance;

@@ -1,6 +1,25 @@
-pub const Undefined = ~@as(u32, 0);
+const maxInt = @import("std").math.maxInt;
+
+pub const size_max = maxInt(isize);
+
+pub const undefined_u32 = maxInt(u32);
+pub const undefined_u64 = maxInt(u64);
+
+pub const Bool = u32;
+
+pub const OptionalBool = enum(u32) {
+    false,
+    true,
+    undefined
+};
 
 pub const UserData = *anyopaque;
+
+pub const CallbackMode = enum (u32) {
+    wait_only,
+    allow_process_events,
+    allow_spontaneous
+};
 
 pub const CompareFunction = enum(u32) {
     undefined,
@@ -22,12 +41,12 @@ pub const ConstantEntry = extern struct {
 
 pub const ChainedStruct = extern struct {
     next: ?*const ChainedStruct = null,
-    type: StructType,
+    type: SType,
 };
 
 pub const ChainedStructOut = extern struct {
     next: ?*ChainedStructOut,
-    type: StructType
+    type: SType
 };
 
 pub const Color = extern struct {
@@ -44,12 +63,11 @@ pub const ErrorCallback = *const fn (
 ) callconv(.C) void;
 
 pub const ErrorType = enum(u32) {
-    none,
+    no_error,
     validation,
-    memory,
+    out_of_memory,
     internal,
-    unknown,
-    device_lost
+    unknown
 };
 
 pub const Extent3D = extern struct {
@@ -64,18 +82,30 @@ pub const Origin3D = extern struct {
     z: u32 = 0
 };
 
-pub const StructType = enum(u32) {
-    invalid,
-    surface_descriptor_from_metal_layer,
-    surface_descriptor_from_windows_hwnd,
-    surface_descriptor_from_xlib_window,
-    surface_descriptor_from_canvas_html_selector,
-    shader_module_spirv_descriptor,
-    shader_module_wgsl_descriptor,
-    primitive_depth_clip_control,
-    surface_descriptor_from_wayland_surface,
-    surface_descriptor_from_android_native_window,
-    surface_descriptor_from_xcb_window,
-    render_pass_descriptor_max_draw_count
+pub const Status = enum (u32) {
+    success,
+    @"error"
+};
+
+pub const StringView = struct {
+    data: ?[*]const u8,
+    length: usize,
+
+    pub const NULL = StringView {
+        .data = null,
+        .length = size_max
+    };
+};
+
+pub const SType = enum(u32) {
+    shader_source_spirv,
+    shader_source_wgsl,
+    render_pass_max_draw_count,
+    surface_source_metal_layer,
+    surface_source_windows_hwnd,
+    surface_source_xlib_window,
+    surface_source_wayland_surface,
+    surface_source_android_native_window,
+    surface_source_xcb_window
 };
 

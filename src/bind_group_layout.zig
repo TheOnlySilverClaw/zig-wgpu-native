@@ -22,15 +22,16 @@ pub const BindGroupLayoutEntry = extern struct {
     next: ?*const shared.ChainedStruct = null,
     binding: u32,
     visibility: ShaderStage,
-    buffer: BufferBindingLayout = .{ .type = .undefined },
-    sampler: SamplerBindingLayout = .{ .type = .undefined },
-    texture: TextureBindingLayout = .{ .type = .undefined, .view_dimension = .@"2d", .multisampled = false },
+    buffer: BufferBindingLayout = .{ .type = .binding_not_used },
+    sampler: SamplerBindingLayout = .{ .type = .binding_not_used },
+    texture: TextureBindingLayout = .{
+        .type = .undefined,
+        .view_dimension = .@"2d",
+        .multisampled = false
+    },
     storage_texture: StorageTextureBindingLayout = .{
+        .access = .binding_not_used,
         .format = .undefined,
-        .access = .{
-            .write = false,
-            .read = false
-        },
         .view_dimension = .@"2d"
     }
 };
@@ -43,6 +44,7 @@ pub const BufferBindingLayout = extern struct {
 };
 
 pub const BufferBindingType = enum(u32) {
+    binding_not_used,
     undefined,
     uniform,
     storage,
@@ -50,23 +52,26 @@ pub const BufferBindingType = enum(u32) {
 };
 
 pub const SamplerBindingType = enum(u32) {
+    binding_not_used,
     undefined,
     filtering,
     non_filtering,
     comparison
 };
 
-pub const ShaderStage = packed struct(u32) {
+pub const ShaderStage = packed struct(u64) {
     vertex: bool = false,
     fragment: bool = false,
     compute: bool = false,
-    _padding: u29 = 0,
+    _padding: u61 = 0,
 };
 
-pub const StorageTextureAccess = packed struct(u32) {
-    write: bool,
-    read: bool,
-    _padding: u30 = 0
+pub const StorageTextureAccess = enum(u32) {
+    binding_not_used,
+    undefined,
+    write_only,
+    read_only,
+    read_write
 };
 
 pub const StorageTextureBindingLayout = extern struct {
@@ -77,6 +82,7 @@ pub const StorageTextureBindingLayout = extern struct {
 };
 
 pub const TextureSampleType = enum(u32) {
+    binding_not_used,
     undefined,
     float,
     unfilterable_float,

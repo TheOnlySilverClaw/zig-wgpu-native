@@ -53,20 +53,16 @@ pub const BufferDescriptor = extern struct {
     mappedAtCreation: u32 = 0
 };
 
-pub const BufferMapAsyncStatus = enum(u32) {
+pub const MapAsyncStatus = enum(u32) {
     success,
-    validation_error,
-    unknown,
-    device_lost,
-    destroyed_before_callback,
-    unmapped_before_callback,
-    mapping_already_pending,
-    offset_out_of_range,
-    size_out_of_range
+    instance_dropped,
+    @"error",
+    aborted,
+    unknown
 };
 
 pub const BufferMapCallback = *const fn (
-    status: BufferMapAsyncStatus,
+    status: MapAsyncStatus,
     userdata: ?*anyopaque
 ) callconv(.C) void;
 
@@ -76,7 +72,7 @@ pub const BufferMapState = enum(u32) {
     mapped
 };
 
-pub const BufferUsage = packed struct(u32) {
+pub const BufferUsage = packed struct(u64) {
     map_read: bool = false,
     map_write: bool = false,
     copy_src: bool = false,
@@ -87,10 +83,10 @@ pub const BufferUsage = packed struct(u32) {
     storage: bool = false,
     indirect: bool = false,
     query_resolve: bool = false,
-    _padding: u22 = 0
+    _padding: u54 = 0
 };
 
-pub const MapMode = packed struct(u32) {
+pub const MapMode = packed struct(u64) {
     read: bool = false,
     write: bool = false,
     _padding: u30 = 0

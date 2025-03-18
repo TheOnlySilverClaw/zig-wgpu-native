@@ -12,14 +12,16 @@ pub const Sampler = opaque {
 };
 
 pub const AddressMode = enum(u32) {
+    undefined,
     repeat,
     mirror_repeat,
-    clamp_to_edge,
+    clamp_to_edge
 };
 
 pub const FilterMode = enum(u32) {
+    undefined,
     nearest,
-    linear,
+    linear
 };
 
 // as long as it has the same values

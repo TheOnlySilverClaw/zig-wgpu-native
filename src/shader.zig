@@ -26,8 +26,8 @@ pub const CompilationInfoCallback = *const fn (
 
 pub const CompilationInfoRequestStatus = enum(u32) {
     success,
-    failure,
-    device_lost,
+    instance_dropped,
+    @"error",
     unknown
 };
 
@@ -45,7 +45,7 @@ pub const CompilationMessage = extern struct {
 };
 
 pub const CompilationMessageType = enum(u32) {
-    failure,
+    @"error",
     warning,
     info
 };

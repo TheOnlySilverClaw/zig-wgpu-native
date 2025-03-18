@@ -15,14 +15,6 @@ pub const Texture = opaque {
     pub const release = wgpuTextureRelease;
 };
 
-pub const AlphaMode = enum(u32) {
-    auto,
-    opaque_,
-    premultiplied,
-    unpremultiplied,
-    inherit
-};
-
 pub const ImageCopyTexture = extern struct {
     next: ?*const shared.ChainedStruct = null,
     texture: *Texture,
@@ -32,6 +24,7 @@ pub const ImageCopyTexture = extern struct {
 };
 
 pub const TextureAspect = enum(u32) {
+    undefined,
     all,
     stencil_only,
     depth_only
@@ -59,6 +52,7 @@ pub const TextureDescriptor = extern struct {
 
 
 pub const TextureDimension = enum(u32) {
+    undefined,
     @"1d",
     @"2d",
     @"3d"
@@ -163,14 +157,14 @@ pub const TextureFormat = enum(u32) {
     astc12x12_unorm_srgb
 };
 
-pub const TextureUsage = packed struct(u32) {
+pub const TextureUsage = packed struct(u64) {
     copy_src: bool = false,
     copy_dst: bool = false,
     texture_binding: bool = false,
     storage_binding: bool = false,
     render_attachment: bool = false,
     transient_attachment: bool = false,
-    _padding: u26 = 0,
+    _padding: u58 = 0,
 };
 
 
