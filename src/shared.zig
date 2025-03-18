@@ -65,7 +65,11 @@ pub const ErrorType = enum(u32) {
 pub const Extent3D = extern struct {
     width: u32,
     height: u32,
-    depth: u32 = 1
+    depth_or_array_layers: u32 = 1
+};
+
+pub const Future = extern struct {
+    id: u64
 };
 
 pub const Origin3D = extern struct {

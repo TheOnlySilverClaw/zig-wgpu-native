@@ -30,14 +30,11 @@ pub const CompilationInfoRequestStatus = enum(u32) {
 pub const CompilationMessage = extern struct {
     next: ?*const shared.ChainedStruct = null,
     message: shared.StringView = .{},
-    message_type: CompilationMessageType,
+    type: CompilationMessageType,
     line_num: u64,
     line_pos: u64,
     offset: u64,
     length: u64,
-    utf16_line_pos: u64,
-    utf16_offset: u64,
-    utf16_length: u64
 };
 
 pub const CompilationMessageType = enum(u32) {
@@ -51,7 +48,13 @@ pub const ShaderModuleDescriptor = extern struct {
     label: shared.StringView
 };
 
-pub const ShaderModuleWGSLDescriptor = extern struct {
+pub const ShaderSourceSPIRV = extern struct {
+    chain: shared.ChainedStruct,
+    code_size: u32,
+    code: [*]const u32
+};
+
+pub const ShaderSourceWGSL = extern struct {
     chain: shared.ChainedStruct,
     code:  shared.StringView
 };

@@ -38,6 +38,12 @@ pub const Instance = opaque {
     pub const release = wgpuInstanceRelease;
 };
 
+pub const InstanceCapabilities = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    timed_wait_any_enabled: shared.Bool,
+    timed_wait_any_max_count: usize
+};
+
 pub const InstanceDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null
 };

@@ -44,13 +44,13 @@ pub const ComputePassDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
     label: shared.StringView = .{},
     timestamp_write_count: usize,
-    timestamp_writes: ?[*]const ComputePassTimestampWrite,
+    timestamp_writes: ?[*]const ComputePassTimestampWrites,
 };
 
-pub const ComputePassTimestampWrite = extern struct {
+pub const ComputePassTimestampWrites= extern struct {
     query_set: query.QuerySet,
-    start: u32,
-    end: u32,
+    beginning_of_pass_write_index: u32,
+    end_of_pass_write_index: u32
 };
 
 

@@ -86,17 +86,17 @@ pub const RenderPassDepthStencilAttachment = extern struct {
     depth_load_op: LoadOp = .undefined,
     depth_store_op: StoreOp = .undefined,
     depth_clear_value: f32 = 0.0,
-    depth_read_only: bool = false,
+    depth_read_only: shared.Bool = 0,
     stencil_load_op: LoadOp = .undefined,
     stencil_store_op: StoreOp = .undefined,
     stencil_clear_value: u32 = 0,
-    stencil_read_only: bool = false,
+    stencil_read_only: shared.Bool
 };
 
 pub const RenderPassTimestampWrite = extern struct {
     query_set: *query.QuerySet,
-    start: u32,
-    end: u32,
+    beginning_of_pass_write_index: u32,
+    end_of_pass_write_index: u32
 };
 
 pub const StoreOp = enum(u32) { undefined, store, discard };

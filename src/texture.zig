@@ -30,8 +30,7 @@ pub const TextureAspect = enum(u32) {
     depth_only
 };
 
-pub const TextureDataLayout = extern struct {
-    next: ?*const shared.ChainedStruct = null,
+pub const TexelCopyBufferLayout = extern struct {
     offset: u64 = 0,
     bytes_per_row: u32,
     rows_per_image: u32

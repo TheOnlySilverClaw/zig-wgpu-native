@@ -27,10 +27,8 @@ pub const QueryType = enum(u32) {
 pub const QuerySetDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
     label: shared.StringView = .{},
-    query_type: QueryType,
-    count: u32,
-    pipeline_statistics: ?[*]const PipelineStatisticName,
-    pipeline_statistics_count: usize,
+    type: QueryType,
+    count: u32
 };
 
 extern fn wgpuQuerySetDestroy(query_set: *QuerySet) void;

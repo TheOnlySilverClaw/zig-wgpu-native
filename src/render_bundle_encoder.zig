@@ -54,8 +54,8 @@ pub const RenderBundleEncoderDescriptor = extern struct {
     color_formats: ?[*]const texture.TextureFormat,
     depth_stencil_format: texture.TextureFormat,
     sample_count: u32,
-    depth_read_only: bool,
-    stencil_read_only: bool,
+    depth_read_only: shared.Bool,
+    stencil_read_only: shared.Bool,
 };
 
 

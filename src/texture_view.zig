@@ -31,7 +31,8 @@ pub const TextureViewDescriptor = extern struct {
     mip_level_count: u32 = 1,
     base_array_layer: u32 = 0,
     array_layer_count: u32 = 1,
-    aspect: texture.TextureAspect = .all
+    aspect: texture.TextureAspect = .all,
+    usage: texture.TextureUsage
 };
 
 

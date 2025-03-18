@@ -104,11 +104,11 @@ extern fn wgpuAdapterCreateDevice(adapter: *Adapter, descriptor: *const device.D
 
 extern fn wgpuAdapterEnumerateFeatures(adapter: *Adapter, features: ?[*]support.FeatureName) usize;
 
-extern fn wgpuAdapterGetLimits(adapter: *Adapter, limits: *support.SupportedLimits) bool;
+extern fn wgpuAdapterGetLimits(adapter: *Adapter, limits: *support.SupportedLimits) shared.Bool;
 
 extern fn wgpuAdapterGetInfo(adapter: *Adapter, properties: *AdapterInfo) void;
 
-extern fn wgpuAdapterHasFeature(adapter: *Adapter, feature: support.FeatureName) bool;
+extern fn wgpuAdapterHasFeature(adapter: *Adapter, feature: support.FeatureName) shared.Bool;
 
 extern fn wgpuAdapterRequestDevice(adapter: *Adapter, descriptor: ?*const device.DeviceDescriptor,
     callback: *const RequestDeviceCallback, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) void;

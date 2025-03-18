@@ -85,7 +85,7 @@ pub const CreatePipelineAsyncStatus = enum(u32) {
 pub const DeviceDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
     label: shared.StringView = .{},
-    required_features_count: usize = 0,
+    required_feature_count: usize = 0,
     required_features: ?[*]const support.FeatureName = null,
     required_limits: ?[*]const support.RequiredLimits = null,
     default_queue: queue.QueueDescriptor = .{},
@@ -176,15 +176,15 @@ extern fn wgpuDeviceDestroy(device: *Device) void;
 
 extern fn wgpuDeviceEnumerateFeatures(device: *Device, features: ?[*]support.FeatureName) usize;
 
-extern fn wgpuDeviceGetLimits(device: *Device, limits: *support.SupportedLimits) bool;
+extern fn wgpuDeviceGetLimits(device: *Device, limits: *support.SupportedLimits) shared.Bool;
 
 extern fn wgpuDeviceGetQueue(device: *Device) *queue.Queue;
 
-extern fn wgpuDeviceHasFeature(device: *Device, feature: support.FeatureName) bool;
+extern fn wgpuDeviceHasFeature(device: *Device, feature: support.FeatureName) shared.Bool;
 
 extern fn wgpuDeviceGetAdapter(device: *Device) *adapter.Adapter;
 
-extern fn wgpuDevicePopErrorScope(device: *Device, callback: shared.ErrorCallback, userdata: ?*anyopaque) bool;
+extern fn wgpuDevicePopErrorScope(device: *Device, callback: shared.ErrorCallback, userdata: ?*anyopaque) shared.Bool;
 
 extern fn wgpuDevicePushErrorScope(device: *Device, filter: ErrorFilter) void;
 

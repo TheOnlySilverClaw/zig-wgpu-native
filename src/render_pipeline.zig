@@ -207,21 +207,22 @@ pub const PrimitiveState = extern struct {
     topology: PrimitiveTopology,
     strip_index_format: buffer.IndexFormat = .undefined,
     front_face: FrontFace,
-    cull_mode: CullMode
+    cull_mode: CullMode,
+    unclipped_depth: shared.Bool = 0
 };
 
 pub const StencilFaceState = extern struct {
     compare: shared.CompareFunction = .always,
-    fail_operation: StencilOperation = .keep,
-    depth_fail_operation: StencilOperation = .keep,
-    pass_operation: StencilOperation = .keep
+    fail_op: StencilOperation = .keep,
+    depth_fail_op: StencilOperation = .keep,
+    pass_op: StencilOperation = .keep
 };
 
 pub const DepthStencilState = extern struct {
     next: ?*const shared.ChainedStruct = null,
     format: texture.TextureFormat,
-    depth_write_enabled: u32 = 1,
-    depth_compare: shared.CompareFunction = .always,
+    depth_write_enabled: shared.OptionalBool = .undefined,
+    depth_compare: shared.CompareFunction,
     stencil_front: StencilFaceState = .{},
     stencil_back: StencilFaceState = .{},
     stencil_read_mask: u32 = shared.undefined_u32,

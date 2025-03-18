@@ -51,7 +51,6 @@ pub const Limits = extern struct {
     max_buffer_size: u64 = u64_undefined,
     max_vertex_attributes: u32 = u32_undefined,
     max_vertex_buffer_array_stride: u32 = u32_undefined,
-    max_inter_stage_shader_components: u32 = u32_undefined,
     max_inter_stage_shader_variables: u32 = u32_undefined,
     max_color_attachments: u32 = u32_undefined,
     max_color_attachment_bytes_per_sample: u32 = u32_undefined,
@@ -69,9 +68,16 @@ pub const RequiredLimits = extern struct {
     limits: Limits = .{},
 };
 
-pub const SupportedLimits = extern struct {
+pub const SupportedFeatures = extern struct {
     next: ?*shared.ChainedStructOut = null,
-    limits: Limits = .{},
+    feature_count: usize,
+    features: [*]FeatureName
+};
+
+pub const SupportedWGSLLanguageFeatures = extern struct {
+    next: ?*shared.ChainedStructOut = null,
+    feature_count: usize,
+    features: [*]WGSLLanguageFeatureName
 };
 
 pub const WGSLLanguageFeatureName = enum(u32) {

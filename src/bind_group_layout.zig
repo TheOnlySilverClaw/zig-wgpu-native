@@ -25,21 +25,21 @@ pub const BindGroupLayoutEntry = extern struct {
     buffer: BufferBindingLayout = .{ .type = .binding_not_used },
     sampler: SamplerBindingLayout = .{ .type = .binding_not_used },
     texture: TextureBindingLayout = .{
-        .type = .undefined,
-        .view_dimension = .@"2d",
-        .multisampled = false
+        .sample_type = .undefined,
+        .view_dimension = .undefined,
+        .multisampled = 0
     },
     storage_texture: StorageTextureBindingLayout = .{
         .access = .binding_not_used,
         .format = .undefined,
-        .view_dimension = .@"2d"
+        .view_dimension = .undefined
     }
 };
 
 pub const BufferBindingLayout = extern struct {
     next: ?*const shared.ChainedStruct = null,
     type: BufferBindingType = .uniform,
-    has_dynamic_offset: bool = false,
+    has_dynamic_offset: shared.Bool = 0,
     min_binding_size: u64 = 0,
 };
 
@@ -93,14 +93,14 @@ pub const TextureSampleType = enum(u32) {
 
 pub const SamplerBindingLayout = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    type: SamplerBindingType = .filtering
+    type: SamplerBindingType
 };
 
 pub const TextureBindingLayout = extern struct {
     next: ?*const shared.ChainedStruct = null,
-    type: TextureSampleType,
+    sample_type: TextureSampleType,
     view_dimension: texture_view.TextureViewDimension,
-    multisampled: bool
+    multisampled: shared.Bool = 0
 };
 
 

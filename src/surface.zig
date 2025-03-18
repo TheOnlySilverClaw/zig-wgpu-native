@@ -39,7 +39,7 @@ pub const PresentMode = enum(u32) {
 };
 
 pub const SurfaceCapabilities = extern struct {
-    next: ?*const shared.ChainedStruct = null,
+    next: ?*shared.ChainedStructOut = null,
     usages: texture.TextureUsage,
     format_count: usize,
     formats: [*]const texture.TextureFormat,
@@ -54,11 +54,11 @@ pub const SurfaceConfiguration = extern struct {
     device: *device.Device,
     format: texture.TextureFormat,
     usage: texture.TextureUsage,
+    width: u32,
+    height: u32,
     view_format_count: usize,
     view_formats: ?[*]const texture.TextureFormat,
     alpha_mode: CompositeAlphaMode,
-    width: u32,
-    height: u32,
     present_mode: PresentMode
 };
 
@@ -81,7 +81,6 @@ pub const SurfaceGetCurrentTextureStatus = enum(u32) {
 
 pub const SurfaceTexture = extern struct {
     texture: *texture.Texture,
-    suboptimal: shared.Bool,
     status: SurfaceGetCurrentTextureStatus  
 };
 
