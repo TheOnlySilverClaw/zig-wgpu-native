@@ -71,13 +71,17 @@ pub const RequiredLimits = extern struct {
 pub const SupportedFeatures = extern struct {
     next: ?*shared.ChainedStructOut = null,
     feature_count: usize,
-    features: [*]FeatureName
+    features: [*]FeatureName,
+
+    pub const freeMemvers = wgpuSupportedFeaturesFreeMembers;
 };
 
 pub const SupportedWGSLLanguageFeatures = extern struct {
     next: ?*shared.ChainedStructOut = null,
     feature_count: usize,
-    features: [*]WGSLLanguageFeatureName
+    features: [*]WGSLLanguageFeatureName,
+
+    pub const freeMembers = wgpuSupportedWGSLLanguageFeaturesFreeMembers;
 };
 
 pub const WGSLLanguageFeatureName = enum(u32) {
@@ -86,3 +90,8 @@ pub const WGSLLanguageFeatureName = enum(u32) {
     unrestricted_pointer_parameters,
     pointer_composite_access
 };
+
+
+extern fn wgpuSupportedFeaturesFreeMembers(features: SupportedFeatures) void;
+
+extern fn wgpuSupportedWGSLLanguageFeaturesFreeMembers(features: SupportedWGSLLanguageFeatures) void;

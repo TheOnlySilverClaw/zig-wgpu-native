@@ -8,7 +8,7 @@ pub const BindGroup = opaque {
     
     pub const setLabel = wgpuBindGroupSetLabel;
 
-    pub const reference = wgpuBindGroupReference;
+    pub const addRef = wgpuBindGroupAddRef;
 
     pub const release = wgpuBindGroupRelease;
 };
@@ -34,6 +34,6 @@ pub const BindGroupDescriptor = extern struct {
 
 extern fn wgpuBindGroupSetLabel(bind_group: *BindGroup, label: ?[*:0]const u8) void;
 
-extern fn wgpuBindGroupReference(bind_group: *BindGroup) void;
+extern fn wgpuBindGroupAddRef(bind_group: *BindGroup) void;
 
 extern fn wgpuBindGroupRelease(bind_group: *BindGroup) void;

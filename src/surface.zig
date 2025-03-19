@@ -17,7 +17,7 @@ pub const Surface = opaque {
 
     pub const setLabel = wgpuSurfaceSetLabel;
 
-    pub const reference = wgpuSurfaceReference;
+    pub const addRef = wgpuSurfaceAddRef;
 
     pub const release = wgpuSurfaceRelease;
 };
@@ -46,7 +46,9 @@ pub const SurfaceCapabilities = extern struct {
     present_mode_count: usize,
     present_modes: [*]const PresentMode,
     alpha_mode_count: usize,
-    alpha_modes: [*]const CompositeAlphaMode
+    alpha_modes: [*]const CompositeAlphaMode,
+
+    pub const freeMembers = wgpuSurfaceCapabilitiesFreeMembers;
 };
 
 pub const SurfaceConfiguration = extern struct {
@@ -87,16 +89,18 @@ pub const SurfaceTexture = extern struct {
 
 extern fn wgpuSurfaceConfigure(surface: *Surface, configuration: *const SurfaceConfiguration) void;
 
-extern fn wgpuSurfaceGetCapabilities(surface: *Surface, surface_adapter: *adapter.Adapter, capabilities: *const SurfaceCapabilities) void;
+extern fn wgpuSurfaceGetCapabilities(surface: *Surface, surface_adapter: *adapter.Adapter, capabilities: *SurfaceCapabilities) shared.Status;
 
-extern fn wgpuSurfaceGetCurrentTexture(surface: *Surface, surface_texture: *const SurfaceTexture) void;
+extern fn wgpuSurfaceGetCurrentTexture(surface: *Surface, surface_texture: *SurfaceTexture) void;
 
-extern fn wgpuSurfacePresent(surface: *Surface) void;
+extern fn wgpuSurfacePresent(surface: *Surface) shared.Status;
 
 extern fn wgpuSurfaceSetLabel(surface: *Surface, label: shared.StringView) void;
 
 extern fn wgpuSurfaceUnconfigure(surface: *Surface) void;
 
-extern fn wgpuSurfaceReference(surface: *Surface) void;
+extern fn wgpuSurfaceAddRef(surface: *Surface) void;
 
 extern fn wgpuSurfaceRelease(surface: *Surface) void;
+
+extern fn wgpuSurfaceCapabilitiesFreeMembers(capabilities: SurfaceCapabilities) void;

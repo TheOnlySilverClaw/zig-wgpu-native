@@ -35,7 +35,7 @@ pub const ComputePassEncoder = opaque {
 
     pub const writeTimestamp = wgpuComputePassEncoderWriteTimestamp;
 
-    pub const reference = wgpuComputePassEncoderReference;
+    pub const addRef = wgpuComputePassEncoderAddRef;
 
     pub const release = wgpuComputePassEncoderRelease;
 };
@@ -54,8 +54,7 @@ pub const ComputePassTimestampWrites= extern struct {
 };
 
 
-extern fn wgpuComputePassEncoderDispatchWorkgroups(encoder: *ComputePassEncoder,
-    count_x: u32, count_y: u32, count_z: u32) void;
+extern fn wgpuComputePassEncoderDispatchWorkgroups(encoder: *ComputePassEncoder, count_x: u32, count_y: u32, count_z: u32) void;
 
 extern fn wgpuComputePassEncoderDispatchWorkgroupsIndirect(encoder: *ComputePassEncoder, indirect_buffer: buffer.Buffer, offset: u64) void;
 
@@ -75,6 +74,6 @@ extern fn wgpuComputePassEncoderSetPipeline(encoder: *ComputePassEncoder, pipeli
 
 extern fn wgpuComputePassEncoderWriteTimestamp(encoder: *ComputePassEncoder, query_set: query.QuerySet, index: u32) void;
 
-extern fn wgpuComputePassEncoderReference(encoder: *ComputePassEncoder) void;
+extern fn wgpuComputePassEncoderAddRef(encoder: *ComputePassEncoder) void;
 
 extern fn wgpuComputePassEncoderRelease(encoder: *ComputePassEncoder) void;

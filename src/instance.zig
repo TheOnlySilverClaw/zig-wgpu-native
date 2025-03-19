@@ -3,20 +3,35 @@ const adapter = @import("adapter.zig");
 const surface = @import("surface.zig");
 const support = @import("support.zig");
 
-pub const createInstance = wgpuCreateInstance;
+
+pub const getInstanceCapabilities = wgpuGetInstanceCapabilities;
 
 pub const Instance = opaque {
 
     pub const create = wgpuCreateInstance;
 
     pub const createSurface = wgpuInstanceCreateSurface;
+    
+    pub const getWGSLLanguageFeatures = wgpuInstanceGetWGSLLanguageFeatures;
+
+    pub const hasWGSLLanguageFeature = wgpuInstanceHasWGSLLanguageFeature;
+
+    pub const processEvents = wgpuInstanceProcessEvents;
 
     pub const requestAdapterAsync = wgpuInstanceRequestAdapter;
 
-    pub fn requestAdapterSync(instance: *Instance, options: *const RequestAdapterOptions) !*adapter.Adapter {
+    pub fn awaitAdapter(instance: *Instance, options: *const RequestAdapterOptions) !*adapter.Adapter {
 
         var result: ?*adapter.Adapter = null;
-        wgpuInstanceRequestAdapter(instance, options, adapterCallback, @ptrCast(&result));
+        const callback_info = RequestAdapterCallbackInfo {
+            .mode = .wait_only,
+            .callback = adapterCallback,
+            .userdata1 = @ptrCast(&result),
+            .userdata2 = null
+        };
+        // ignore the future, I guess?
+        _ = wgpuInstanceRequestAdapter(instance, options, callback_info);
+        
         return result orelse adapter.Error.Unavailable;
     }
 
@@ -33,7 +48,9 @@ pub const Instance = opaque {
         }
     }
 
-    pub const reference = wgpuInstanceReference;
+    pub const waitAny = wgpuInstanceWaitAny;
+    
+    pub const addRef = wgpuInstanceAddRef;
 
     pub const release = wgpuInstanceRelease;
 };
@@ -51,6 +68,14 @@ pub const InstanceDescriptor = extern struct {
 
 pub const RequestAdapterCallback = fn (status: RequestAdapterStatus, adapter: ?*adapter.Adapter,
     message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+
+pub const RequestAdapterCallbackInfo = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    mode: shared.CallbackMode,
+    callback: *const RequestAdapterCallback,
+    userdata1: ?*shared.UserData,
+    userdata2: ?*shared.UserData
+};
 
 pub const RequestAdapterOptions = extern struct {
     next: ?*const shared.ChainedStruct = null,
@@ -82,14 +107,25 @@ pub const WaitStatus = enum(u32) {
     unsupported_mixed_sources
 };
 
-extern fn wgpuCreateInstance(descriptor: ?* const InstanceDescriptor) *Instance;
 
-extern fn wgpuInstanceCreateSurface(instance: *Instance,
-    descriptor: *const surface.SurfaceDescriptor) *surface.Surface;
+extern fn wgpuGetInstanceCapabilities(capabilities: *InstanceCapabilities) shared.Status;
+
+extern fn wgpuCreateInstance(descriptor: ?*const InstanceDescriptor) *Instance;
+
+extern fn wgpuInstanceCreateSurface(instance: *Instance, descriptor: *const surface.SurfaceDescriptor) *surface.Surface;
+
+extern fn wgpuInstanceGetWGSLLanguageFeatures(instance: *Instance, features: *support.SupportedWGSLLanguageFeatures) shared.Status;
+
+extern fn wgpuInstanceHasWGSLLanguageFeature(instance: *Instance, feature: support.WGSLLanguageFeatureName) shared.Status;
+
+extern fn wgpuInstanceProcessEvents(instance: *Instance) void;
 
 extern fn wgpuInstanceRequestAdapter(instance: *Instance,
-    options: *const RequestAdapterOptions, callback: *const RequestAdapterCallback, userdata: ?*shared.UserData) void;
+    options: ?*const RequestAdapterOptions,
+    callback_info: RequestAdapterCallbackInfo) shared.Future;
 
-extern fn wgpuInstanceReference(instance: *Instance) void;
+extern fn wgpuInstanceWaitAny(instance: *Instance, future_count: usize, futures: ?[*]shared.FutureWaitInfo, timeout_ns: u64) WaitStatus;
+
+extern fn wgpuInstanceAddRef(instance: *Instance) void;
 
 extern fn wgpuInstanceRelease(instance: *Instance) void;

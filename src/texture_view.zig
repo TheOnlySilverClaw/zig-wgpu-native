@@ -6,7 +6,7 @@ pub const TextureView = opaque {
     
     pub const setLabel = wgpuTextureViewSetLabel;
 
-    pub const reference = wgpuTextureViewReference;
+    pub const addRef = wgpuTextureViewAddRef;
 
     pub const release = wgpuTextureViewRelease;
 };
@@ -38,6 +38,6 @@ pub const TextureViewDescriptor = extern struct {
 
 extern fn wgpuTextureViewSetLabel(texture_view: *TextureView, label: ?shared.StringView) void;
 
-extern fn wgpuTextureViewReference(texture_view: *TextureView) void;
+extern fn wgpuTextureViewAddRef(texture_view: *TextureView) void;
 
 extern fn wgpuTextureViewRelease(texture_view: *TextureView) void;

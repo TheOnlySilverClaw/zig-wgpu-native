@@ -6,7 +6,7 @@ pub const Sampler = opaque {
 
     pub const setLabel = wgpuSamplerSetLabel;
 
-    pub const reference = wgpuSamplerReference;
+    pub const addRef = wgpuSamplerAddRef;
 
     pub const release = wgpuSamplerRelease;
 };
@@ -45,6 +45,6 @@ pub const SamplerDescriptor = extern struct {
 
 extern fn wgpuSamplerSetLabel(sampler: *Sampler, label: ?[*:0]const u8) void;
 
-extern fn wgpuSamplerReference(sampler: *Sampler) void;
+extern fn wgpuSamplerAddRef(sampler: *Sampler) void;
 
 extern fn wgpuSamplerRelease(sampler: *Sampler) void;

@@ -49,11 +49,13 @@ pub const Device = opaque {
 
     pub const destroy = wgpuDeviceDestroy;
 
-    pub const enumerateFeatures = wgpuDeviceEnumerateFeatures;
+    pub const getFeatures = wgpuDeviceGetFeatures;
 
     pub const getLimits = wgpuDeviceGetLimits;
 
     pub const getQueue = wgpuDeviceGetQueue;
+
+    pub const getLostFuture = wgpuDeviceGetLostFuture;
 
     pub const hasFeature = wgpuDeviceHasFeature;
 
@@ -69,7 +71,7 @@ pub const Device = opaque {
 
     pub const setUncapturedErrorCallback = wgpuDeviceSetUncapturedErrorCallback;
 
-    pub const reference = wgpuDeviceReference;
+    pub const addRef = wgpuDeviceAddRef;
 
     pub const release = wgpuDeviceRelease;
 };
@@ -100,6 +102,14 @@ pub const DeviceError = error {
 pub const DeviceLostCallback = fn (*const Device, reason: DeviceLostReason,
     message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
+pub const DeviceLostCallbackInfo = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    mode: shared.CallbackMode,
+    callback: *const DeviceLostCallback,
+    userdata1: ?*shared.UserData,
+    userdata2: ?*shared.UserData
+};
+
 pub const DeviceLostReason = enum(u32) {
     unknown,
     destroyed,
@@ -116,6 +126,14 @@ pub const ErrorFilter = enum(u32) {
 pub const PopErrorScopeCallback = fn(status: PopErrorScopeStatus, type: shared.ErrorType,
     message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
+pub const PopErrorScopeCallbackInfo = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    mode: shared.CallbackMode,
+    callback: *const PopErrorScopeCallback,
+    userdata1: ?*shared.UserData,
+    userdata2: ?*shared.UserData
+};
+
 pub const PopErrorScopeStatus = enum(u32) {
     success,
     instance_dropped,
@@ -124,6 +142,14 @@ pub const PopErrorScopeStatus = enum(u32) {
 
 pub const UncapturedErrorCallback = fn (device: *const Device, type: shared.ErrorType,
     message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+
+pub const UncapturedErrorCallbackInfo = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    mode: shared.CallbackMode,
+    callback: *const UncapturedErrorCallback,
+    userdata1: ?*shared.UserData,
+    userdata2: ?*shared.UserData
+};
 
 
 extern fn wgpuDeviceCreateBindGroup(device: *Device,
@@ -143,8 +169,7 @@ extern fn wgpuDeviceCreateComputePipeline(device: *Device,
 
 extern fn wgpuDeviceCreateComputePipelineAsync(device: *Device,
     descriptor: *const compute_pipeline.ComputePipelineDescriptor,
-    callback: *const compute_pipeline.CreateComputePipelineAsyncCallback,
-    userdata: ?*shared.UserData) void;
+    callback: *const compute_pipeline.CreateComputePipelineAsyncCallbackInfo) shared.Future;
 
 extern fn wgpuDeviceCreatePipelineLayout(device: *Device,
     descriptor: *const pipeline_layout.PipelineLayoutDescriptor) *pipeline_layout.PipelineLayout;
@@ -160,8 +185,7 @@ extern fn wgpuDeviceCreateRenderPipeline(device: *Device,
 
 extern fn wgpuDeviceCreateRenderPipelineAsync(device: *Device,
     descriptor: *const render_pipeline.RenderPipelineDescriptor,
-    callback: render_pipeline.CreateRenderPipelineAsyncCallback,
-    userdata: ?*shared.UserData) void;
+    callback: render_pipeline.CreateRenderPipelineAsyncCallbackInfo) shared.Future;
 
 extern fn wgpuDeviceCreateSampler(device: *Device,
     descriptor: *const sampler.SamplerDescriptor) *sampler.Sampler;
@@ -174,28 +198,30 @@ extern fn wgpuDeviceCreateTexture(device: *Device,
 
 extern fn wgpuDeviceDestroy(device: *Device) void;
 
-extern fn wgpuDeviceEnumerateFeatures(device: *Device, features: ?[*]support.FeatureName) usize;
+extern fn wgpuDeviceGetAdapterInfo(device: *Device) adapter.AdapterInfo;
+
+extern fn wgpuDeviceGetFeatures(device: *Device, features: *support.SupportedFeatures) usize;
 
 extern fn wgpuDeviceGetLimits(device: *Device, limits: *support.SupportedLimits) shared.Bool;
 
 extern fn wgpuDeviceGetQueue(device: *Device) *queue.Queue;
 
+extern fn wgpuDeviceGetLostFuture(device: *Device) shared.Future;
+
 extern fn wgpuDeviceHasFeature(device: *Device, feature: support.FeatureName) shared.Bool;
 
 extern fn wgpuDeviceGetAdapter(device: *Device) *adapter.Adapter;
 
-extern fn wgpuDevicePopErrorScope(device: *Device, callback: shared.ErrorCallback, userdata: ?*anyopaque) shared.Bool;
+extern fn wgpuDevicePopErrorScope(device: *Device, callback_info: PopErrorScopeCallbackInfo) shared.Future;
 
 extern fn wgpuDevicePushErrorScope(device: *Device, filter: ErrorFilter) void;
 
-extern fn wgpuDeviceSetDeviceLostCallback(device: *Device,
-    callback: DeviceLostCallback, userdata: ?*shared.UserData) void;
+extern fn wgpuDeviceSetDeviceLostCallback(device: *Device, callback_info: *const DeviceLostCallbackInfo) void;
 
 extern fn wgpuDeviceSetLabel(device: *Device, label: ?shared.StringView) void;
 
-extern fn wgpuDeviceSetUncapturedErrorCallback(device: *Device,
-    callback: shared.ErrorCallback, userdata: ?*shared.UserData) void;
+extern fn wgpuDeviceSetUncapturedErrorCallback(device: *Device, callback_info: UncapturedErrorCallbackInfo) void;
 
-extern fn wgpuDeviceReference(device: *Device) void;
+extern fn wgpuDeviceAddRef(device: *Device) void;
 
 extern fn wgpuDeviceRelease(device: *Device) void;

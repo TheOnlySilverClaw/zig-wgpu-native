@@ -27,6 +27,10 @@ pub const Buffer = opaque {
         return @as([*]T, @ptrCast(@alignCast(ptr)))[0..len];
     }
 
+    pub const getMapState = wgpuBufferGetMapState;
+
+    pub const getUsage = wgpuBufferGetUsage;
+
     pub const size = wgpuBufferGetSize;
 
     // `offset` has to be a multiple of 8
@@ -38,7 +42,7 @@ pub const Buffer = opaque {
 
     pub const unmap = wgpuBufferUnmap;
 
-    pub const reference = wgpuBufferReference;
+    pub const addRef = wgpuBufferAddRef;
 
     pub const release = wgpuBufferRelease;
 
@@ -61,6 +65,14 @@ pub const MapAsyncStatus = enum(u32) {
 };
 
 pub const BufferMapCallback = fn (status: MapAsyncStatus, message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+
+pub const BufferMapCallbackInfo = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    mode: shared.CallbackMode,
+    callback: *const BufferMapCallback,
+    userdata1: ?*shared.UserData,
+    userdata2: ?*shared.UserData
+};
 
 pub const BufferMapState = enum(u32) {
     unmapped,
@@ -101,11 +113,15 @@ pub const IndexFormat = enum(u32) {
 };
 
 
-extern fn wgpuBufferMapAsync(buffer: *Buffer, mode: MapMode, offset: usize, size: usize, callback: BufferMapCallback, userdata: ?*anyopaque) void;
+extern fn wgpuBufferMapAsync(buffer: *Buffer, mode: MapMode, offset: usize, size: usize, callback: *const BufferMapCallbackInfo) shared.Future;
 
 extern fn wgpuBufferGetConstMappedRange(buffer: *Buffer, offset: usize, size: usize) ?*const anyopaque;
 
 extern fn wgpuBufferGetMappedRange(buffer: *Buffer, offset: usize, size: usize) ?*anyopaque;
+
+extern fn wgpuBufferGetMapState(buffer: *Buffer) BufferMapState;
+
+extern fn wgpuBufferGetUsage(buffer: *Buffer) BufferUsage;
 
 extern fn wgpuBufferGetSize(buffer: *Buffer) u64;
 
@@ -113,7 +129,7 @@ extern fn wgpuBufferSetLabel(buffer: *Buffer, label: shared.StringView) void;
 
 extern fn wgpuBufferUnmap(buffer: *Buffer) void;
 
-extern fn wgpuBufferReference(buffer: *Buffer) void;
+extern fn wgpuBufferAddRef(buffer: *Buffer) void;
 
 extern fn wgpuBufferRelease(buffer: *Buffer) void;
 

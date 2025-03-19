@@ -42,7 +42,7 @@ pub const RenderBundleEncoder = opaque {
 
     pub const setVertexBuffer = wgpuRenderBundleEncoderSetVertexBuffer;
 
-    pub const reference = wgpuRenderBundleEncoderReference;
+    pub const addRef = wgpuRenderBundleEncoderAddRef;
 
     pub const release = wgpuRenderBundleEncoderRelease;
 };
@@ -72,28 +72,28 @@ extern fn wgpuRenderBundleEncoderDrawIndirect(encoder: *RenderBundleEncoder,
     indirect_buffer: buffer.Buffer, indirect_offset: u64) void;
 
 extern fn wgpuRenderBundleEncoderFinish(encoder: *RenderBundleEncoder,
-    descriptor: *const bundle.RenderBundleDescriptor) bundle.RenderBundle;
+    descriptor: *const bundle.RenderBundleDescriptor) *bundle.RenderBundle;
 
-extern fn wgpuRenderBundleEncoderInsertDebugMarker(encoder: *RenderBundleEncoder, label: [*:0]const u8) void;
+extern fn wgpuRenderBundleEncoderInsertDebugMarker(encoder: *RenderBundleEncoder, marker_label: shared.StringView) void;
 
 extern fn wgpuRenderBundleEncoderPopDebugGroup(encoder: *RenderBundleEncoder) void;
 
 extern fn wgpuRenderBundleEncoderPushDebugGroup(encoder: *RenderBundleEncoder, label: shared.StringView) void;
 
 extern fn wgpuRenderBundleEncoderSetBindGroup(encoder: *RenderBundleEncoder,
-    index: u32, group: bind_group.BindGroup,
+    index: u32, group: *bind_group.BindGroup,
     dynamic_offset_count: u32, dynamic_offsets: ?[*]const u32) void;
 
 extern fn wgpuRenderBundleEncoderSetIndexBuffer(encoder: *RenderBundleEncoder,
-    index_buffer: buffer.Buffer, format: buffer.IndexFormat, offset: u64, size: u64) void;
+    index_buffer: *buffer.Buffer, format: buffer.IndexFormat, offset: u64, size: u64) void;
 
-extern fn wgpuRenderBundleEncoderSetPipeline(encoder: *RenderBundleEncoder, pipeline: render_pipeline.RenderPipeline) void;
+extern fn wgpuRenderBundleEncoderSetPipeline(encoder: *RenderBundleEncoder, pipeline: *render_pipeline.RenderPipeline) void;
 
-extern fn wgpuRenderBundleEncoderSetLabel(encoder: *RenderBundleEncoder, label: ?shared.StringView) void;
+extern fn wgpuRenderBundleEncoderSetLabel(encoder: *RenderBundleEncoder, label: shared.StringView) void;
 
 extern fn wgpuRenderBundleEncoderSetVertexBuffer(encoder: *RenderBundleEncoder,
     slot: u32, vertex_buffer: buffer.Buffer, offset: u64, size: u64) void;
 
-extern fn wgpuRenderBundleEncoderReference(encoder: *RenderBundleEncoder) void;
+extern fn wgpuRenderBundleEncoderAddRef(encoder: *RenderBundleEncoder) void;
 
 extern fn wgpuRenderBundleEncoderRelease(encoder: *RenderBundleEncoder) void;

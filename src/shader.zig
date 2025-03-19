@@ -7,7 +7,7 @@ pub const ShaderModule = opaque {
 
     pub const setLabel = wgpuShaderModuleSetLabel;
 
-    pub const reference = wgpuShaderModuleReference;
+    pub const addRef = wgpuShaderModuleAddRef;
 
     pub const release = wgpuShaderModuleRelease;
 };
@@ -19,6 +19,14 @@ pub const CompilationInfo = extern struct {
 };
 
 pub const CompilationInfoCallback = fn (status: CompilationInfoRequestStatus, compilation_info: *const CompilationInfo, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+
+pub const CompilationInfoCallbackInfo = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    mode: shared.CallbackMode,
+    callback: *const CompilationInfoCallback,
+    userdata1: ?*shared.UserData,
+    userdata2: ?*shared.UserData
+};
 
 pub const CompilationInfoRequestStatus = enum(u32) {
     success,
@@ -60,11 +68,10 @@ pub const ShaderSourceWGSL = extern struct {
 };
 
 
-extern fn wgpuShaderModuleGetCompilationInfo(module: *ShaderModule,
-    callback: CompilationInfoCallback, userdata: ?*anyopaque) void;
+extern fn wgpuShaderModuleGetCompilationInfo(module: *ShaderModule, callback_info: CompilationInfoCallbackInfo) shared.Future;
 
 extern fn wgpuShaderModuleSetLabel(module: *ShaderModule, label: ?[*:0]const u8) void;
 
-extern fn wgpuShaderModuleReference(module: *ShaderModule) void;
+extern fn wgpuShaderModuleAddRef(module: *ShaderModule) void;
 
 extern fn wgpuShaderModuleRelease(module: *ShaderModule) void;

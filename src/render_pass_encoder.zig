@@ -61,7 +61,7 @@ pub const RenderPassEncoder = opaque {
 
     pub const setVertexBuffer = wgpuRenderPassEncoderSetVertexBuffer;
 
-    pub const reference = wgpuRenderPassEncoderReference;
+    pub const addRef = wgpuRenderPassEncoderAddRef;
 
     pub const release = wgpuRenderPassEncoderRelease;
 };
@@ -106,7 +106,12 @@ pub const RenderPassTimestampWrite = extern struct {
     end_of_pass_write_index: u32
 };
 
-pub const StoreOp = enum(u32) { undefined, store, discard };
+pub const StoreOp = enum(u32) {
+    undefined,
+    store,
+    discard
+};
+
 
 extern fn wgpuRenderPassEncoderBeginOcclusionQuery(encoder: *RenderPassEncoder, index: u32) void;
 
@@ -114,9 +119,9 @@ extern fn wgpuRenderPassEncoderDraw(encoder: *RenderPassEncoder, vertex_count: u
 
 extern fn wgpuRenderPassEncoderDrawIndexed(encoder: *RenderPassEncoder, index_count: u32, instance_count: u32, first_index: u32, base_vertex: i32, first_instance: u32) void;
 
-extern fn wgpuRenderPassEncoderDrawIndexedIndirect(encoder: *RenderPassEncoder, indirect_buffer: buffer.Buffer, indirect_offset: u64) void;
+extern fn wgpuRenderPassEncoderDrawIndexedIndirect(encoder: *RenderPassEncoder, indirect_buffer: *buffer.Buffer, indirect_offset: u64) void;
 
-extern fn wgpuRenderPassEncoderDrawIndirect(encoder: *RenderPassEncoder, indirect_buffer: buffer.Buffer, indirect_offset: u64) void;
+extern fn wgpuRenderPassEncoderDrawIndirect(encoder: *RenderPassEncoder, indirect_buffer: *buffer.Buffer, indirect_offset: u64) void;
 
 extern fn wgpuRenderPassEncoderEnd(encoder: *RenderPassEncoder) void;
 
@@ -148,6 +153,6 @@ extern fn wgpuRenderPassEncoderSetVertexBuffer(encoder: *RenderPassEncoder, slot
 
 extern fn wgpuRenderPassEncoderSetViewport(encoder: *RenderPassEncoder, x: f32, y: f32, width: f32, height: f32, min_depth: f32, max_depth: f32) void;
 
-extern fn wgpuRenderPassEncoderReference(encoder: *RenderPassEncoder) void;
+extern fn wgpuRenderPassEncoderAddRef(encoder: *RenderPassEncoder) void;
 
 extern fn wgpuRenderPassEncoderRelease(encoder: *RenderPassEncoder) void;

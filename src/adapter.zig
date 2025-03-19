@@ -11,6 +11,8 @@ pub const Adapter = opaque {
 
     pub const enumerateFeatures = wgpuAdapterEnumerateFeatures;
 
+    pub const getFeatures = wgpuAdapterGetFeatures;
+
     pub const getLimits = wgpuAdapterGetLimits;
 
     pub const getInfo = wgpuAdapterGetInfo;
@@ -19,10 +21,18 @@ pub const Adapter = opaque {
 
     pub const requestDevice = wgpuAdapterRequestDevice;
 
-    pub fn requestDeviceSync(adapter: *Adapter, descriptor: ?*const device.DeviceDescriptor) device.DeviceError!*device.Device {
+    pub fn awaitDevice(adapter: *Adapter, descriptor: ?*const device.DeviceDescriptor) device.DeviceError!*device.Device {
 
         var result: ?*device.Device = null;
-        wgpuAdapterRequestDevice(adapter, descriptor, deviceCallback, @ptrCast(&result), null);
+        const callback_info = RequestDeviceCallbackInfo {
+            .mode = .wait_only,
+            .callback = deviceCallback,
+            .userdata1 = @ptrCast(&result),
+            .userdata2 = null
+        };
+        // ignore the future, I guess?
+        _ = wgpuAdapterRequestDevice(adapter, descriptor, callback_info);
+        
         return result orelse device.DeviceError.Unavailable;
     }
 
@@ -39,7 +49,7 @@ pub const Adapter = opaque {
         }
     }
 
-    pub const reference = wgpuAdapterReference;
+    pub const addRef = wgpuAdapterAddRef;
 
     pub const release = wgpuAdapterRelease;
 };
@@ -54,6 +64,8 @@ pub const AdapterInfo = extern struct {
     adapter_type: AdapterType,
     vendor_id: u32,
     device_id: u32,
+
+    pub const freeMembers = wgpuAdapterInfoFreeMembers;
 };
 
 pub const AdapterType = enum(u32) {
@@ -81,7 +93,7 @@ pub const PowerPreference = enum(u32) {
     high_performance
 };
 
-pub const RequestDeviceCallback = fn (status: RequestDeviceStatus, device: *device.Device,
+pub const RequestDeviceCallback = fn (status: RequestDeviceStatus, device: ?*device.Device,
     message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
 
 pub const RequestDeviceCallbackInfo = extern struct {
@@ -100,19 +112,22 @@ pub const RequestDeviceStatus = enum(u32) {
 };
 
 
+extern fn wgpuAdapterGetFeatures(adapter: *Adapter, features: *support.SupportedFeatures) void;
+
 extern fn wgpuAdapterCreateDevice(adapter: *Adapter, descriptor: *const device.DeviceDescriptor) device.Device;
 
 extern fn wgpuAdapterEnumerateFeatures(adapter: *Adapter, features: ?[*]support.FeatureName) usize;
 
-extern fn wgpuAdapterGetLimits(adapter: *Adapter, limits: *support.SupportedLimits) shared.Bool;
+extern fn wgpuAdapterGetLimits(adapter: *Adapter, limits: *support.Limits) shared.Bool;
 
 extern fn wgpuAdapterGetInfo(adapter: *Adapter, properties: *AdapterInfo) void;
 
 extern fn wgpuAdapterHasFeature(adapter: *Adapter, feature: support.FeatureName) shared.Bool;
 
-extern fn wgpuAdapterRequestDevice(adapter: *Adapter, descriptor: ?*const device.DeviceDescriptor,
-    callback: *const RequestDeviceCallback, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) void;
+extern fn wgpuAdapterRequestDevice(adapter: *Adapter, descriptor: ?*const device.DeviceDescriptor, callback_info: RequestDeviceCallbackInfo) shared.Future;
 
-extern fn wgpuAdapterReference(adapter: *Adapter) void;
+extern fn wgpuAdapterAddRef(adapter: *Adapter) void;
 
 extern fn wgpuAdapterRelease(adapter: *Adapter) void;
+
+extern fn wgpuAdapterInfoFreeMembers(adapter_info: *AdapterInfo) void;

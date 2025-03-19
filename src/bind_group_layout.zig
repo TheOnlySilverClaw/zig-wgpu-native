@@ -6,7 +6,7 @@ pub const BindGroupLayout = opaque {
 
     pub const setLabel = wgpuBindGroupLayoutSetLabel;
 
-    pub const reference = wgpuBindGroupLayoutReference;
+    pub const addRef = wgpuBindGroupLayoutAddRef;
 
     pub const release = wgpuBindGroupLayoutRelease;
 };
@@ -106,6 +106,6 @@ pub const TextureBindingLayout = extern struct {
 
 extern fn wgpuBindGroupLayoutSetLabel(layout: *BindGroupLayout, label: shared.StringView) void;
 
-extern fn wgpuBindGroupLayoutReference(layout: *BindGroupLayout) void;
+extern fn wgpuBindGroupLayoutAddRef(layout: *BindGroupLayout) void;
 
 extern fn wgpuBindGroupLayoutRelease(layout: *BindGroupLayout) void;

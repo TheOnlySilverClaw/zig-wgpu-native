@@ -4,7 +4,7 @@ pub const RenderBundle = opaque {
     
     pub const setLabel = wgpuRenderBundleSetLabel;
 
-    pub const reference = wgpuRenderBundleReference;
+    pub const addRef = wgpuRenderBundleEncoderAddRef;
 
     pub const release = wgpuRenderBundleRelease;
 };
@@ -17,6 +17,6 @@ pub const RenderBundleDescriptor = extern struct {
 
 extern fn wgpuRenderBundleSetLabel(bundle: *RenderBundle, label: ?[*:0]const u8) void;
 
-extern fn wgpuRenderBundleReference(bundle: *RenderBundle) void;
+extern fn wgpuRenderBundleEncoderAddRef(bundle: *RenderBundle) void;
 
 extern fn wgpuRenderBundleRelease(bundle: *RenderBundle) void;

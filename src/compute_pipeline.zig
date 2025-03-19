@@ -10,13 +10,21 @@ pub const ComputePipeline = opaque {
 
     pub const setLabel = wgpuComputePipelineSetLabel;
 
-    pub const reference = wgpuComputePipelineReference;
+    pub const addRef = wgpuComputePipelineAddRef;
 
     pub const release = wgpuComputePipelineRelease;
 };
 
 pub const CreateComputePipelineAsyncCallback = fn (status: device.CreatePipelineAsyncStatus, pipeline: *ComputePipeline,
     message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+
+pub const CreateComputePipelineAsyncCallbackInfo = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    mode: shared.CallbackMode,
+    callback: *const CreateComputePipelineAsyncCallback,
+    userdata1: ?*shared.UserData,
+    userdata2: ?*shared.UserData
+};
 
 pub const ComputePipelineDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
@@ -38,6 +46,6 @@ extern fn wgpuComputePipelineGetBindGroupLayout(pipeline: *ComputePipeline, inde
 
 extern fn wgpuComputePipelineSetLabel(pipeline: *ComputePipeline, label: ?shared.StringView) void;
 
-extern fn wgpuComputePipelineReference(pipeline: *ComputePipeline) void;
+extern fn wgpuComputePipelineAddRef(pipeline: *ComputePipeline) void;
 
 extern fn wgpuComputePipelineRelease(pipeline: *ComputePipeline) void;

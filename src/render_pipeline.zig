@@ -13,7 +13,7 @@ pub const RenderPipeline = opaque {
 
     pub const setLabel = wgpuRenderPipelineSetLabel;
 
-    pub const reference = wgpuRenderPipelineReference;
+    pub const addRef = wgpuRenderPipelineAddRef;
 
     pub const release = wgpuRenderPipelineRelease;
 };
@@ -50,6 +50,14 @@ pub const BlendOperation = enum(u32) {
 
 pub const CreateRenderPipelineAsyncCallback = fn (status: device.CreatePipelineAsyncStatus, pipeline: RenderPipeline,
     message: shared.StringView, userdata: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+
+pub const CreateRenderPipelineAsyncCallbackInfo = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    mode: shared.CallbackMode,
+    callback: *const CreateRenderPipelineAsyncCallback,
+    userdata1: ?*shared.UserData,
+    userdata2: ?*shared.UserData
+};
 
 pub const CullMode = enum(u32) {
     undefined,
@@ -255,6 +263,6 @@ extern fn wgpuRenderPipelineGetBindGroupLayout(pipeline: *RenderPipeline, index:
 
 extern fn wgpuRenderPipelineSetLabel(pipeline: *RenderPipeline, label: ?shared.StringView) void;
 
-extern fn wgpuRenderPipelineReference(pipeline: *RenderPipeline) void;
+extern fn wgpuRenderPipelineAddRef(pipeline: *RenderPipeline) void;
 
 extern fn wgpuRenderPipelineRelease(pipeline: *RenderPipeline) void;

@@ -5,7 +5,7 @@ pub const PipelineLayout = opaque {
     
     pub const setLabel = wgpuPipelineLayoutSetLabel;
 
-    pub const reference = wgpuPipelineLayoutReference;
+    pub const addRef = wgpuPipelineLayoutAddRef;
 
     pub const release = wgpuPipelineLayoutRelease;
 };
@@ -20,6 +20,6 @@ pub const PipelineLayoutDescriptor = extern struct {
 
 extern fn wgpuPipelineLayoutSetLabel(layout: *PipelineLayout, label: ?[*:0]const u8) void;
 
-extern fn wgpuPipelineLayoutReference(layout: *PipelineLayout) void;
+extern fn wgpuPipelineLayoutAddRef(layout: *PipelineLayout) void;
 
 extern fn wgpuPipelineLayoutRelease(layout: *PipelineLayout) void;
