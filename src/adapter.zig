@@ -25,7 +25,7 @@ pub const Adapter = opaque {
 
         var result: ?*device.Device = null;
         const callback_info = RequestDeviceCallbackInfo {
-            .mode = .wait_only,
+            .mode = .wait_any_only,
             .callback = deviceCallback,
             .userdata1 = @ptrCast(&result),
             .userdata2 = null
@@ -40,7 +40,10 @@ pub const Adapter = opaque {
         message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void {
         
         // TODO figure out how to handle the message
-        _ = message;
+        if(message.data) |d| {
+            @import("std").log.info("device callback message: {s}", .{ d[0..message.length ] });
+        }
+
         _ = userdata2;
 
         if(status == .success and received != null and userdata1 != null) {
@@ -88,7 +91,7 @@ pub const BackendType = enum(u32) {
 };
 
 pub const PowerPreference = enum(u32) {
-    undefined,
+    none,
     low_power,
     high_performance
 };

@@ -1,8 +1,8 @@
 const shared = @import("shared.zig");
 
 pub const FeatureLevel = enum(u32) {
-    compatibility,
-    core
+    compatibility = 1,
+    core = 2
 };
 
 pub const FeatureName = enum(u32) {

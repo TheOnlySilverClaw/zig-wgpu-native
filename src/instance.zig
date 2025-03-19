@@ -24,7 +24,7 @@ pub const Instance = opaque {
 
         var result: ?*adapter.Adapter = null;
         const callback_info = RequestAdapterCallbackInfo {
-            .mode = .wait_only,
+            .mode = .wait_any_only,
             .callback = adapterCallback,
             .userdata1 = @ptrCast(&result),
             .userdata2 = null
@@ -39,7 +39,10 @@ pub const Instance = opaque {
         message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void {
 
         // TODO figure out how to handle the message
-        _ = message;
+        if(message.data) |d| {
+            @import("std").log.info("adapter callback message: {s}", .{ d[0..message.length ] });
+        }
+
         _ = userdata2;
 
         if(status == .success and received != null and userdata1 != null) {

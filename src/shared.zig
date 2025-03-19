@@ -14,9 +14,9 @@ pub const OptionalBool = enum(u32) {
 pub const UserData = anyopaque;
 
 pub const CallbackMode = enum (u32) {
-    wait_only,
-    allow_process_events,
-    allow_spontaneous
+    wait_any_only = 1,
+    allow_process_events = 2,
+    allow_spontaneous = 3
 };
 
 pub const CompareFunction = enum(u32) {
