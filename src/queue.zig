@@ -52,7 +52,7 @@ extern fn wgpuQueueSubmit(queue: *Queue, count: usize, commands: [*]const *comma
 
 extern fn wgpuQueueWriteBuffer(queue: *Queue, target: *buffer.Buffer, offset: u64, data: *const anyopaque, size: usize) void;
 
-extern fn wgpuQueueWriteTexture(queue: *Queue, destination: *const texture.ImageCopyTexture, data: *const anyopaque, size: usize, layout: *const texture.TexelCopyBufferLayout, extent: *const shared.Extent3D) void;
+extern fn wgpuQueueWriteTexture(queue: *Queue, destination: *const texture.TexelCopyTextureInfo, data: *const anyopaque, size: usize, layout: *const texture.TexelCopyBufferLayout, extent: *const shared.Extent3D) void;
 
 extern fn wgpuQueueReference(queue: *Queue) void;
 

@@ -90,7 +90,7 @@ pub const DeviceDescriptor = extern struct {
     required_limits: ?[*]const support.RequiredLimits = null,
     default_queue: queue.QueueDescriptor = .{},
     device_lost_callback: ?*const DeviceLostCallback = null,
-    device_lost_user_data: ?*shared.UserData = null,
+    uncaptured_error_callback_info: ?*const UncapturedErrorCallback
 };
 
 pub const DeviceError = error {

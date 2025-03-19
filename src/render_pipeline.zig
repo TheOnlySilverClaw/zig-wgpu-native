@@ -158,8 +158,8 @@ pub const VertexAttribute = extern struct {
 };
 
 pub const VertexBufferLayout = extern struct {
-    array_stride: u64,
     step_mode: VertexStepMode = .vertex,
+    array_stride: u64,
     attribute_count: usize,
     attributes: [*]const VertexAttribute
 };

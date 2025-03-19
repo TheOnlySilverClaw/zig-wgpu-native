@@ -15,7 +15,7 @@ pub const BindGroupLayoutDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
     label: shared.StringView = .{},
     entry_count: usize,
-    entries: ?[*]const BindGroupLayoutEntry,
+    entries: [*]const BindGroupLayoutEntry
 };
 
 pub const BindGroupLayoutEntry = extern struct {

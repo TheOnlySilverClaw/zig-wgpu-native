@@ -72,6 +72,11 @@ pub const Future = extern struct {
     id: u64
 };
 
+pub const FutureWaitInfo = extern struct {
+    future: Future,
+    completed: Bool = 0
+};
+
 pub const Origin3D = extern struct {
     x: u32 = 0,
     y: u32 = 0,

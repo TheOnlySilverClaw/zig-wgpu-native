@@ -45,7 +45,8 @@ pub const InstanceCapabilities = extern struct {
 };
 
 pub const InstanceDescriptor = extern struct {
-    next: ?*const shared.ChainedStruct = null
+    next: ?*const shared.ChainedStruct = null,
+    features: InstanceCapabilities
 };
 
 pub const RequestAdapterCallback = fn (status: RequestAdapterStatus, adapter: ?*adapter.Adapter,

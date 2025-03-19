@@ -15,7 +15,7 @@ pub const Texture = opaque {
     pub const release = wgpuTextureRelease;
 };
 
-pub const ImageCopyTexture = extern struct {
+pub const TexelCopyTextureInfo  = extern struct {
     next: ?*const shared.ChainedStruct = null,
     texture: *Texture,
     mip_level: u32,
@@ -45,7 +45,7 @@ pub const TextureDescriptor = extern struct {
     format: TextureFormat,
     mip_level_count: u32,
     sample_count: u32,
-    view_format_count: usize,
+    view_format_count: usize = 0,
     view_formats: ?[*]const TextureFormat,
 };
 

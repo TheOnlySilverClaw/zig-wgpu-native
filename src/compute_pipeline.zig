@@ -21,7 +21,7 @@ pub const CreateComputePipelineAsyncCallback = fn (status: device.CreatePipeline
 pub const ComputePipelineDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
     label: shared.StringView,
-    layout: ?layout.PipelineLayout = null,
+    layout: ?*layout.PipelineLayout = null,
     compute: ProgrammableStageDescriptor
 };
 

@@ -68,7 +68,15 @@ pub const RenderPassEncoder = opaque {
 
 pub const LoadOp = enum(u32) { undefined, load, clear };
 
-pub const RenderPassColorAttachment = extern struct { next: ?*const shared.ChainedStruct = null, view: ?*texture_view.TextureView, depth_slice: u32 = maxInt(u32), resolve_target: ?*texture_view.TextureView = null, load_op: LoadOp, store_op: StoreOp, clear_value: shared.Color };
+pub const RenderPassColorAttachment = extern struct {
+    next: ?*const shared.ChainedStruct = null,
+    view: ?*texture_view.TextureView,
+    depth_slice: u32 = maxInt(u32),
+    resolve_target: ?*texture_view.TextureView = null,
+    load_op: LoadOp,
+    store_op: StoreOp,
+    clear_value: shared.Color
+};
 
 pub const RenderPassDescriptor = extern struct {
     next: ?*const shared.ChainedStruct = null,
@@ -77,7 +85,6 @@ pub const RenderPassDescriptor = extern struct {
     color_attachments: ?[*]const RenderPassColorAttachment,
     depth_stencil_attachment: ?*const RenderPassDepthStencilAttachment = null,
     occlusion_query_set: ?*query.QuerySet = null,
-    timestamp_write_count: usize = 0,
     timestamp_writes: ?[*]const RenderPassTimestampWrite = null,
 };
 
