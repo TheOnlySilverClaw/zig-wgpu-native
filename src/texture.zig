@@ -32,7 +32,6 @@ pub const Texture = opaque {
 };
 
 pub const TexelCopyTextureInfo  = extern struct {
-    next: ?*const shared.ChainedStruct = null,
     texture: *Texture,
     mip_level: u32,
     origin: shared.Origin3D,

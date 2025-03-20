@@ -82,6 +82,7 @@ pub const SurfaceGetCurrentTextureStatus = enum(u32) {
 };
 
 pub const SurfaceTexture = extern struct {
+    next: ?*const shared.ChainedStruct = null,
     texture: *texture.Texture,
     status: SurfaceGetCurrentTextureStatus  
 };
