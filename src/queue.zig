@@ -43,7 +43,7 @@ pub const QueueWorkDoneCallbackInfo = extern struct {
 };
 
 pub const QueueWorkDoneStatus = enum(u32) {
-    success,
+    success = 1,
     instance_dropped,
     @"error",
     unknown
@@ -58,7 +58,8 @@ extern fn wgpuQueueSubmit(queue: *Queue, command_count: usize, commands: [*]cons
 
 extern fn wgpuQueueWriteBuffer(queue: *Queue, target: *buffer.Buffer, offset: u64, data: *const anyopaque, size: usize) void;
 
-extern fn wgpuQueueWriteTexture(queue: *Queue, destination: *const texture.TexelCopyTextureInfo, data: *const anyopaque, size: usize, data_layout: *const texture.TexelCopyBufferLayout, write_size: *const shared.Extent3D) void;
+extern fn wgpuQueueWriteTexture(queue: *Queue, destination: *const texture.TexelCopyTextureInfo, data: *const anyopaque,
+    data_size: usize, data_layout: *const texture.TexelCopyBufferLayout, write_size: *const shared.Extent3D) void;
 
 extern fn wgpuQueueAddRef(queue: *Queue) void;
 

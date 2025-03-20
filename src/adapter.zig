@@ -72,7 +72,7 @@ pub const AdapterInfo = extern struct {
 };
 
 pub const AdapterType = enum(u32) {
-    discrete_gpu,
+    discrete_gpu = 1,
     integrated_gpu,
     cpu,
     unknown,
@@ -108,7 +108,7 @@ pub const RequestDeviceCallbackInfo = extern struct {
 };
 
 pub const RequestDeviceStatus = enum(u32) {
-    success,
+    success = 1,
     instance_dropped,
     @"error",
     unknown

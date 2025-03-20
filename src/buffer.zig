@@ -57,7 +57,7 @@ pub const BufferDescriptor = extern struct {
 };
 
 pub const MapAsyncStatus = enum(u32) {
-    success,
+    success = 1,
     instance_dropped,
     @"error",
     aborted,
@@ -75,7 +75,7 @@ pub const BufferMapCallbackInfo = extern struct {
 };
 
 pub const BufferMapState = enum(u32) {
-    unmapped,
+    unmapped = 1,
     pending,
     mapped
 };

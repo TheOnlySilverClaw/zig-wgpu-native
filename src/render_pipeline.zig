@@ -94,7 +94,7 @@ pub const StencilOperation = enum(u32) {
 };
 
 pub const VertexFormat = enum(u32) {
-    uint8,
+    uint8 = 1,
     uint8x2,
     uint8x4,
     sint8,

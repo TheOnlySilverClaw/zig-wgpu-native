@@ -77,7 +77,7 @@ pub const Device = opaque {
 };
 
 pub const CreatePipelineAsyncStatus = enum(u32) {
-    success,
+    success = 1,
     instance_dropped,
     validation_error,
     internal_error,
@@ -111,7 +111,7 @@ pub const DeviceLostCallbackInfo = extern struct {
 };
 
 pub const DeviceLostReason = enum(u32) {
-    unknown,
+    unknown = 1,
     destroyed,
     instance_dropped,
     failed_creation
@@ -135,7 +135,7 @@ pub const PopErrorScopeCallbackInfo = extern struct {
 };
 
 pub const PopErrorScopeStatus = enum(u32) {
-    success,
+    success = 1,
     instance_dropped,
     empty_stack
 };

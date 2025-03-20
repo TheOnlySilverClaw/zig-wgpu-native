@@ -29,7 +29,7 @@ pub const CompilationInfoCallbackInfo = extern struct {
 };
 
 pub const CompilationInfoRequestStatus = enum(u32) {
-    success,
+    success = 1,
     instance_dropped,
     @"error",
     unknown

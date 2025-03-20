@@ -1,13 +1,13 @@
 const shared = @import("shared.zig");
 
 pub const FeatureLevel = enum(u32) {
-    compatibility = 1,
-    core = 2
+    undefined,
+    compatibility,
+    core
 };
 
 pub const FeatureName = enum(u32) {
-    undefined,
-    depth_clip_control,
+    depth_clip_control = 1,
     depth32_float_stencil8,
     timestamp_query,
     texture_compression_bc,
@@ -85,7 +85,7 @@ pub const SupportedWGSLLanguageFeatures = extern struct {
 };
 
 pub const WGSLLanguageFeatureName = enum(u32) {
-    readonly_and_readwrite_storage_textures,
+    readonly_and_readwrite_storage_textures = 1,
     packed_4x8_integer_dot_product,
     unrestricted_pointer_parameters,
     pointer_composite_access

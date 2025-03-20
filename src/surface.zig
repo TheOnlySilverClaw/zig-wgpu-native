@@ -71,7 +71,7 @@ pub const SurfaceDescriptor = extern struct {
 };
 
 pub const SurfaceGetCurrentTextureStatus = enum(u32) {
-    success_optimal,
+    success_optimal = 1,
     success_suboptimal,
     timeout,
     outdated,

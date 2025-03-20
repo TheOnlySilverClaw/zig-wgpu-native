@@ -84,7 +84,7 @@ pub const Origin3D = extern struct {
 };
 
 pub const Status = enum (u32) {
-    success,
+    success = 1,
     @"error"
 };
 
@@ -94,16 +94,26 @@ pub const StringView = extern struct {
 
     pub const empty = StringView{ .data = null, .length = 0 };
 
-    pub fn sized(slice: []const u8) StringView {
-        return .{ .data = slice.ptr, .length = slice.len };
+    pub fn sized(byte_slice: []const u8) StringView {
+        return .{ .data = byte_slice.ptr, .length = byte_slice.len };
     }
 
-    pub fn terminated(pointer: StringView) StringView {
+    pub fn terminated(pointer: [*:0]u8) StringView {
         return .{ .data = pointer, .length = maxInt(usize) };
+    }
+
+    pub fn slice(view: StringView) []const u8 {
+
+        if(view.data) |d| {
+            return d[0..view.length];
+        } else {
+            return &.{};
+        }
     }
 };
 
 pub const SType = enum(u32) {
+    undefined,
     shader_source_spirv,
     shader_source_wgsl,
     render_pass_max_draw_count,
