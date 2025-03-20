@@ -20,7 +20,7 @@ pub const Instance = opaque {
 
     pub const requestAdapterAsync = wgpuInstanceRequestAdapter;
 
-    pub fn awaitAdapter(instance: *Instance, options: *const RequestAdapterOptions) !*adapter.Adapter {
+    pub fn awaitAdapter(instance: *Instance, options: ?*const RequestAdapterOptions) !*adapter.Adapter {
 
         var result: ?*adapter.Adapter = null;
         const callback_info = RequestAdapterCallbackInfo {
@@ -96,14 +96,14 @@ pub const RequestAdapterResult = struct {
 };
 
 pub const RequestAdapterStatus = enum(u32) {
-    success,
+    success = 1,
     unavailable,
     failure,
     unknown
 };
 
 pub const WaitStatus = enum(u32) {
-    success,
+    success = 1,
     timed_out,
     unsupported_timeout,
     unsupported_count,
@@ -119,7 +119,7 @@ extern fn wgpuInstanceCreateSurface(instance: *Instance, descriptor: *const surf
 
 extern fn wgpuInstanceGetWGSLLanguageFeatures(instance: *Instance, features: *support.SupportedWGSLLanguageFeatures) shared.Status;
 
-extern fn wgpuInstanceHasWGSLLanguageFeature(instance: *Instance, feature: support.WGSLLanguageFeatureName) shared.Status;
+extern fn wgpuInstanceHasWGSLLanguageFeature(instance: *Instance, feature: support.WGSLLanguageFeatureName) shared.Bool;
 
 extern fn wgpuInstanceProcessEvents(instance: *Instance) void;
 
