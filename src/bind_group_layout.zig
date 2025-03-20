@@ -25,7 +25,7 @@ pub const BindGroupLayoutEntry = extern struct {
     buffer: BufferBindingLayout = .{ .type = .binding_not_used },
     sampler: SamplerBindingLayout = .{ .type = .binding_not_used },
     texture: TextureBindingLayout = .{
-        .sample_type = .undefined,
+        .sample_type = .binding_not_used,
         .view_dimension = .undefined,
         .multisampled = 0
     },
