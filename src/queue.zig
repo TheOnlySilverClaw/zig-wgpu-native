@@ -1,7 +1,8 @@
 const shared = @import("shared.zig");
-const texture = @import("texture.zig");
 const buffer = @import("buffer.zig");
 const command_buffer = @import("command_buffer.zig");
+const texel = @import("texel.zig");
+const texture = @import("texture.zig");
 
 pub const Queue = opaque {
 
@@ -50,7 +51,7 @@ pub const QueueWorkDoneStatus = enum(u32) {
 };
 
 
-extern fn wgpuQueueOnSubmittedWorkDone(queue: Queue, signal_value: u64, callback_info: QueueWorkDoneCallbackInfo) shared.Future;
+extern fn wgpuQueueOnSubmittedWorkDone(queue: Queue, callback_info: QueueWorkDoneCallbackInfo) shared.Future;
 
 extern fn wgpuQueueSetLabel(queue: *Queue, label: ?shared.StringView) void;
 
@@ -58,8 +59,8 @@ extern fn wgpuQueueSubmit(queue: *Queue, command_count: usize, commands: [*]cons
 
 extern fn wgpuQueueWriteBuffer(queue: *Queue, target: *buffer.Buffer, offset: u64, data: *const anyopaque, size: usize) void;
 
-extern fn wgpuQueueWriteTexture(queue: *Queue, destination: *const texture.TexelCopyTextureInfo, data: *const anyopaque,
-    data_size: usize, data_layout: *const texture.TexelCopyBufferLayout, write_size: *const shared.Extent3D) void;
+extern fn wgpuQueueWriteTexture(queue: *Queue, destination: *const texel.TexelCopyTextureInfo, data: *const anyopaque,
+    data_size: usize, data_layout: *const texel.TexelCopyBufferLayout, write_size: *const shared.Extent3D) void;
 
 extern fn wgpuQueueAddRef(queue: *Queue) void;
 

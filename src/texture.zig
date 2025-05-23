@@ -31,24 +31,11 @@ pub const Texture = opaque {
     pub const release = wgpuTextureRelease;
 };
 
-pub const TexelCopyTextureInfo  = extern struct {
-    texture: *Texture,
-    mip_level: u32,
-    origin: shared.Origin3D,
-    aspect: TextureAspect = .all,
-};
-
 pub const TextureAspect = enum(u32) {
     undefined,
     all,
     stencil_only,
     depth_only
-};
-
-pub const TexelCopyBufferLayout = extern struct {
-    offset: u64 = 0,
-    bytes_per_row: u32,
-    rows_per_image: u32
 };
 
 pub const TextureDescriptor = extern struct {

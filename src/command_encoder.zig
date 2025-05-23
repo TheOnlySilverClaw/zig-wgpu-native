@@ -1,10 +1,11 @@
 const shared = @import("shared.zig");
-const texture = @import("texture.zig");
-const buffer = @import("buffer.zig");
 const compute_pass = @import("compute_pass.zig");
 const render_pass_encoder = @import("render_pass_encoder.zig");
 const query = @import("query_set.zig");
 const command_buffer = @import("command_buffer.zig");
+const texel = @import("texel.zig");
+
+const Buffer = @import("buffer.zig").Buffer;
 
 
 pub const CommandEncoder = opaque {
@@ -52,15 +53,15 @@ extern fn wgpuCommandEncoderBeginComputePass(encoder: *CommandEncoder, descripto
 
 extern fn wgpuCommandEncoderBeginRenderPass(encoder: *CommandEncoder, descriptor: *const render_pass_encoder.RenderPassDescriptor) *render_pass_encoder.RenderPassEncoder;
 
-extern fn wgpuCommandEncoderClearBuffer(encoder: *CommandEncoder, buffer: *buffer.Buffer, offset: usize, size: usize) void;
+extern fn wgpuCommandEncoderClearBuffer(encoder: *CommandEncoder, buffer: *Buffer, offset: usize, size: usize) void;
 
-extern fn wgpuCommandEncoderCopyBufferToBuffer(encoder: *CommandEncoder, source: buffer.Buffer, source_offset: u64, destination: buffer.Buffer, destination_offset: u64, size: usize) void;
+extern fn wgpuCommandEncoderCopyBufferToBuffer(encoder: *CommandEncoder, source: Buffer, source_offset: u64, destination: Buffer, destination_offset: u64, size: usize) void;
 
-extern fn wgpuCommandEncoderCopyBufferToTexture(encoder: *CommandEncoder, source: *const buffer.ImageCopyBuffer, destination: *const texture.TexelCopyTextureInfo, copy_size: *const shared.Extent3D) void;
+extern fn wgpuCommandEncoderCopyBufferToTexture(encoder: *CommandEncoder, source: *const texel.TexelCopyBufferInfo, destination: *const texel.TexelCopyTextureInfo, copy_size: *const shared.Extent3D) void;
 
-extern fn wgpuCommandEncoderCopyTextureToBuffer(encoder: *CommandEncoder, source: *const texture.TexelCopyTextureInfo, destination: *const buffer.ImageCopyBuffer, copy_size: *const shared.Extent3D) void;
+extern fn wgpuCommandEncoderCopyTextureToBuffer(encoder: *CommandEncoder, source: *const texel.TexelCopyTextureInfo, destination: *const texel.TexelCopyBufferInfo, copy_size: *const shared.Extent3D) void;
 
-extern fn wgpuCommandEncoderCopyTextureToTexture(encoder: *CommandEncoder, source: *const texture.TexelCopyTextureInfo, destination: *const texture.TexelCopyTextureInfo, copy_size: *const shared.Extent3D) void;
+extern fn wgpuCommandEncoderCopyTextureToTexture(encoder: *CommandEncoder, source: *const texel.TexelCopyTextureInfo, destination: *const texel.TexelCopyTextureInfo, copy_size: *const shared.Extent3D) void;
 
 extern fn wgpuCommandEncoderFinish(encoder: *CommandEncoder, descriptor: ?*const command_buffer.CommandBufferDescriptor) *command_buffer.CommandBuffer;
 
@@ -70,7 +71,7 @@ extern fn wgpuCommandEncoderPopDebugGroup(encoder: *CommandEncoder) void;
 
 extern fn wgpuCommandEncoderPushDebugGroup(encoder: *CommandEncoder, group_label: shared.StringView) void;
 
-extern fn wgpuCommandEncoderResolveQuerySet(encoder: *CommandEncoder, query_set: query.QuerySet, first_query: u32, query_count: u32, destination: buffer.Buffer, destination_offset: u64) void;
+extern fn wgpuCommandEncoderResolveQuerySet(encoder: *CommandEncoder, query_set: query.QuerySet, first_query: u32, query_count: u32, destination: Buffer, destination_offset: u64) void;
 
 extern fn wgpuCommandEncoderWriteTimestamp(encoder: *CommandEncoder, query_set: query.QuerySet, index: u32) void;
 

@@ -100,12 +100,6 @@ pub const MapMode = packed struct(u64) {
     _padding: u30 = 0
 };
 
-pub const ImageCopyBuffer = extern struct {
-    next: ?*const shared.ChainedStruct = null,
-    layout: texture.TextureDataLayout,
-    buffer: *Buffer,
-};
-
 pub const IndexFormat = enum(u32) {
     undefined,
     uint16,
