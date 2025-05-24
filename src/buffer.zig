@@ -97,7 +97,7 @@ pub const BufferUsage = packed struct(u64) {
 pub const MapMode = packed struct(u64) {
     read: bool = false,
     write: bool = false,
-    _padding: u30 = 0
+    _padding: u62 = 0
 };
 
 pub const IndexFormat = enum(u32) {
