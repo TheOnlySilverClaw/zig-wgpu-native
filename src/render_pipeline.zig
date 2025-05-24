@@ -136,7 +136,7 @@ pub const VertexFormat = enum(u32) {
     unorm_10_10_2,
     unorm_8x4_bgra,
 
-    pub fn size(format: webgpu.VertexFormat) u32 {
+    pub fn size(format: VertexFormat) u32 {
         return switch (format) {
             .uint8 => @sizeOf(u8),
             .uint8x2 => @sizeOf(u8) * 2,
