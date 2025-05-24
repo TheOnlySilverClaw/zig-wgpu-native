@@ -107,7 +107,7 @@ pub const IndexFormat = enum(u32) {
 };
 
 
-extern fn wgpuBufferMapAsync(buffer: *Buffer, mode: MapMode, offset: usize, size: usize, callback: *const BufferMapCallbackInfo) shared.Future;
+extern fn wgpuBufferMapAsync(buffer: *Buffer, mode: MapMode, offset: usize, size: usize, callback: BufferMapCallbackInfo) shared.Future;
 
 extern fn wgpuBufferGetConstMappedRange(buffer: *Buffer, offset: usize, size: usize) ?*const anyopaque;
 
