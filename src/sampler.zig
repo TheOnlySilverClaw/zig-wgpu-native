@@ -13,9 +13,9 @@ pub const Sampler = opaque {
 
 pub const AddressMode = enum(u32) {
     undefined,
+    clamp_to_edge,
     repeat,
     mirror_repeat,
-    clamp_to_edge
 };
 
 pub const FilterMode = enum(u32) {
