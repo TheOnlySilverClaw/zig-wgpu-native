@@ -64,7 +64,7 @@ pub const MapAsyncStatus = enum(u32) {
     unknown
 };
 
-pub const BufferMapCallback = fn (status: MapAsyncStatus, message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+pub const BufferMapCallback = fn (status: MapAsyncStatus, message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void;
 
 pub const BufferMapCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,

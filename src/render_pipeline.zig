@@ -49,7 +49,7 @@ pub const BlendOperation = enum(u32) {
 };
 
 pub const CreateRenderPipelineAsyncCallback = fn (status: device.CreatePipelineAsyncStatus, pipeline: RenderPipeline,
-    message: shared.StringView, userdata: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+    message: shared.StringView, userdata: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void;
 
 pub const CreateRenderPipelineAsyncCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,

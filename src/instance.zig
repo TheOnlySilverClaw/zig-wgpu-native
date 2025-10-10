@@ -36,7 +36,7 @@ pub const Instance = opaque {
     }
 
     fn adapterCallback(status: RequestAdapterStatus, received: ?*adapter.Adapter,
-        message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void {
+        message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void {
 
         // TODO figure out how to handle the message
         if(message.data) |d| {
@@ -70,7 +70,7 @@ pub const InstanceDescriptor = extern struct {
 };
 
 pub const RequestAdapterCallback = fn (status: RequestAdapterStatus, adapter: ?*adapter.Adapter,
-    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void;
 
 pub const RequestAdapterCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,

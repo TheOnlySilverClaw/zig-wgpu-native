@@ -18,7 +18,7 @@ pub const CompilationInfo = extern struct {
     messages: ?[*]const CompilationMessage
 };
 
-pub const CompilationInfoCallback = fn (status: CompilationInfoRequestStatus, compilation_info: *const CompilationInfo, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+pub const CompilationInfoCallback = fn (status: CompilationInfoRequestStatus, compilation_info: *const CompilationInfo, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void;
 
 pub const CompilationInfoCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,

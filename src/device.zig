@@ -100,7 +100,7 @@ pub const DeviceError = error {
 };
 
 pub const DeviceLostCallback = fn (*const Device, reason: DeviceLostReason,
-    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void;
 
 pub const DeviceLostCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,
@@ -124,7 +124,7 @@ pub const ErrorFilter = enum(u32) {
 };
 
 pub const PopErrorScopeCallback = fn(status: PopErrorScopeStatus, type: shared.ErrorType,
-    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void;
 
 pub const PopErrorScopeCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,
@@ -141,7 +141,7 @@ pub const PopErrorScopeStatus = enum(u32) {
 };
 
 pub const UncapturedErrorCallback = fn (device: *const Device, type: shared.ErrorType,
-    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void;
 
 pub const UncapturedErrorCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,

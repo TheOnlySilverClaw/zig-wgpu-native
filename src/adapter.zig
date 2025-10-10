@@ -37,7 +37,7 @@ pub const Adapter = opaque {
     }
 
     fn deviceCallback(status: RequestDeviceStatus, received: ?*device.Device,
-        message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void {
+        message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void {
         
         // TODO figure out how to handle the message
         if(message.data) |d| {
@@ -97,7 +97,7 @@ pub const PowerPreference = enum(u32) {
 };
 
 pub const RequestDeviceCallback = fn (status: RequestDeviceStatus, device: ?*device.Device,
-    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void;
 
 pub const RequestDeviceCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,

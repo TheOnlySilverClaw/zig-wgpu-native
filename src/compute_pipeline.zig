@@ -16,7 +16,7 @@ pub const ComputePipeline = opaque {
 };
 
 pub const CreateComputePipelineAsyncCallback = fn (status: device.CreatePipelineAsyncStatus, pipeline: *ComputePipeline,
-    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+    message: shared.StringView, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void;
 
 pub const CreateComputePipelineAsyncCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,

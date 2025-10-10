@@ -33,7 +33,7 @@ pub const QueueDescriptor = extern struct {
     label: shared.StringView = .{},
 };
 
-pub const QueueWorkDoneCallback = fn (status: QueueWorkDoneStatus, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.C) void;
+pub const QueueWorkDoneCallback = fn (status: QueueWorkDoneStatus, userdata1: ?*shared.UserData, userdata2: ?*shared.UserData) callconv(.c) void;
 
 pub const QueueWorkDoneCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,
