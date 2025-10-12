@@ -1,7 +1,8 @@
-pub const shared = @import("shared.zig");
+const shared = @import("shared.zig");
+
 pub const adapter = @import("adapter.zig");
-pub const bindgroup_layout = @import("bind_group_layout.zig");
-pub const bindgroup = @import("bind_group.zig");
+pub const bind_group_layout = @import("bind_group_layout.zig");
+pub const bind_group = @import("bind_group.zig");
 pub const buffer = @import("buffer.zig");
 pub const command_buffer = @import("command_buffer.zig");
 pub const command_encoder = @import("command_encoder.zig");
@@ -23,3 +24,20 @@ pub const surface = @import("surface.zig");
 pub const texture = @import("texture.zig");
 pub const texture_view = @import("texture_view.zig");
 pub const texel = @import("texel.zig");
+
+pub const Bool = shared.Bool;
+pub const OptionalBool = shared.OptionalBool;
+pub const UserData = shared.UserData;
+pub const CallbackMode = shared.CallbackMode;
+pub const CompareFunction = shared.CompareFunction;
+pub const ConstantEntry = shared.ConstantEntry;
+pub const ChainedStruct = shared.ChainedStruct;
+pub const ChainedStructOut = shared.ChainedStructOut;
+pub const Color = shared.Color;
+pub const ErrorType = shared.ErrorType;
+pub const Extent3D = shared.Extent3D;
+pub const Future = shared.Future;
+pub const FutureWaitInfo = shared.FutureWaitInfo;
+pub const Status = shared.Status;
+pub const StringView = shared.StringView;
+pub const SType = shared.SType;

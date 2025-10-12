@@ -1,8 +1,5 @@
 const maxInt = @import("std").math.maxInt;
 
-pub const undefined_u32 = maxInt(u32);
-pub const undefined_u64 = maxInt(u64);
-
 pub const Bool = u32;
 
 pub const OptionalBool = enum(u32) {

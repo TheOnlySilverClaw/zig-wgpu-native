@@ -1,4 +1,3 @@
-const shared = @import("shared.zig");
 const Buffer = @import("buffer.zig").Buffer;
 const Texture = @import("texture.zig").Texture;
 const TextureAspect = @import("texture.zig").TextureAspect;
@@ -7,7 +6,7 @@ const TextureAspect = @import("texture.zig").TextureAspect;
 pub const TexelCopyTextureInfo  = extern struct {
     texture: *Texture,
     mip_level: u32,
-    origin: shared.Origin3D,
+    origin: Origin3D,
     aspect: TextureAspect
 };
 
@@ -20,4 +19,10 @@ pub const TexelCopyBufferLayout = extern struct {
 pub const TexelCopyBufferInfo = extern struct {
     layout: TexelCopyBufferLayout,
     buffer: *Buffer,
+};
+
+pub const Origin3D = extern struct {
+    x: u32 = 0,
+    y: u32 = 0,
+    z: u32 = 0
 };

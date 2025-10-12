@@ -7,6 +7,8 @@ const texture_view = @import("texture_view.zig");
 const device = @import("device.zig");
 const bind_group_layout = @import("bind_group_layout.zig");
 
+const maxInt = @import("std").math.maxInt;
+
 pub const RenderPipeline = opaque {
     
     pub const getBindGroupLayout = wgpuRenderPipelineGetBindGroupLayout;
@@ -279,8 +281,8 @@ pub const DepthStencilState = extern struct {
     depth_compare: shared.CompareFunction,
     stencil_front: StencilFaceState = .{},
     stencil_back: StencilFaceState = .{},
-    stencil_read_mask: u32 = shared.undefined_u32,
-    stencil_write_mask: u32 = shared.undefined_u32,
+    stencil_read_mask: u32 = maxInt(u32),
+    stencil_write_mask: u32 = maxInt(u32),
     depth_bias: i32 = 0,
     depth_bias_slope_scale: f32 = 0.0,
     depth_bias_clamp: f32 = 0.0
@@ -289,7 +291,7 @@ pub const DepthStencilState = extern struct {
 pub const MultisampleState = extern struct {
     next: ?*const shared.ChainedStruct = null,
     count: u32 = 1,
-    mask: u32 = shared.undefined_u32,
+    mask: u32 = maxInt(u32),
     alpha_to_coverage_enabled: shared.Bool = 0
 };
 

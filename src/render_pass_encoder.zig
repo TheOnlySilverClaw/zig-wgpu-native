@@ -66,7 +66,11 @@ pub const RenderPassEncoder = opaque {
     pub const release = wgpuRenderPassEncoderRelease;
 };
 
-pub const LoadOp = enum(u32) { undefined, load, clear };
+pub const LoadOp = enum(u32) {
+    undefined,
+    load,
+    clear
+};
 
 pub const RenderPassColorAttachment = extern struct {
     next: ?*const shared.ChainedStruct = null,

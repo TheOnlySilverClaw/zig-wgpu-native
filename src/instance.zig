@@ -20,7 +20,7 @@ pub const Instance = opaque {
 
     pub const requestAdapterAsync = wgpuInstanceRequestAdapter;
 
-    pub fn awaitAdapter(instance: *Instance, options: ?*const RequestAdapterOptions) !*adapter.Adapter {
+    pub fn awaitAdapter(instance: *Instance, options: ?*const RequestAdapterOptions) error{AdapterUnavailable}!*adapter.Adapter {
 
         var result: ?*adapter.Adapter = null;
         const callback_info = RequestAdapterCallbackInfo {
@@ -32,7 +32,7 @@ pub const Instance = opaque {
         // ignore the future, I guess?
         _ = wgpuInstanceRequestAdapter(instance, options, callback_info);
         
-        return result orelse adapter.Error.Unavailable;
+        return result orelse error.AdapterUnavailable;
     }
 
     fn adapterCallback(status: RequestAdapterStatus, received: ?*adapter.Adapter,

@@ -3,9 +3,6 @@ const shared = @import("shared.zig");
 const support = @import("support.zig");
 const surface = @import("surface.zig");
 
-pub const Error = error {
-    Unavailable
-};
 
 pub const Adapter = opaque {
 
@@ -21,7 +18,7 @@ pub const Adapter = opaque {
 
     pub const requestDevice = wgpuAdapterRequestDevice;
 
-    pub fn awaitDevice(adapter: *Adapter, descriptor: ?*const device.DeviceDescriptor) device.DeviceError!*device.Device {
+    pub fn awaitDevice(adapter: *Adapter, descriptor: ?*const device.DeviceDescriptor) error{DeviceUnavailable}!*device.Device {
 
         var result: ?*device.Device = null;
         const callback_info = RequestDeviceCallbackInfo {
@@ -33,7 +30,7 @@ pub const Adapter = opaque {
         // ignore the future, I guess?
         _ = wgpuAdapterRequestDevice(adapter, descriptor, callback_info);
         
-        return result orelse device.DeviceError.Unavailable;
+        return result orelse error.DeviceUnavailable;
     }
 
     fn deviceCallback(status: RequestDeviceStatus, received: ?*device.Device,
