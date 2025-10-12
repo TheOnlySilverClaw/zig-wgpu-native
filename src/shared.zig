@@ -91,7 +91,7 @@ pub const StringView = extern struct {
 
     pub const empty = StringView{ .data = null, .length = 0 };
 
-    pub fn sized(byte_slice: []const u8) StringView {
+    pub fn sliced(byte_slice: []const u8) StringView {
         return .{ .data = byte_slice.ptr, .length = byte_slice.len };
     }
 
@@ -99,12 +99,12 @@ pub const StringView = extern struct {
         return .{ .data = pointer, .length = maxInt(usize) };
     }
 
-    pub fn slice(view: StringView) []const u8 {
+    pub fn to_slice(view: StringView) ?[]const u8 {
 
         if(view.data) |d| {
             return d[0..view.length];
         } else {
-            return &.{};
+            return null;
         }
     }
 };
