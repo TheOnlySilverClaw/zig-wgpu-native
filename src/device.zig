@@ -91,8 +91,8 @@ pub const DeviceDescriptor = extern struct {
     required_features: ?[*]const support.FeatureName = null,
     required_limits: ?[*]const support.RequiredLimits = null,
     default_queue: queue.QueueDescriptor = .{},
-    device_lost_callback: ?*const DeviceLostCallback = null,
-    uncaptured_error_callback_info: ?*const UncapturedErrorCallback
+    device_lost_callback_info: DeviceLostCallbackInfo,
+    uncaptured_error_callback_info: UncapturedErrorCallbackInfo
 };
 
 pub const DeviceError = error {
@@ -105,9 +105,9 @@ pub const DeviceLostCallback = fn (*const Device, reason: DeviceLostReason,
 pub const DeviceLostCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,
     mode: shared.CallbackMode,
-    callback: *const DeviceLostCallback,
-    userdata1: ?*shared.UserData,
-    userdata2: ?*shared.UserData
+    callback: ?*const DeviceLostCallback = null,
+    userdata1: ?*shared.UserData = null,
+    userdata2: ?*shared.UserData = null
 };
 
 pub const DeviceLostReason = enum(u32) {
@@ -146,9 +146,9 @@ pub const UncapturedErrorCallback = fn (device: *const Device, type: shared.Erro
 pub const UncapturedErrorCallbackInfo = extern struct {
     next: ?*const shared.ChainedStruct = null,
     mode: shared.CallbackMode,
-    callback: *const UncapturedErrorCallback,
-    userdata1: ?*shared.UserData,
-    userdata2: ?*shared.UserData
+    callback: ?*const UncapturedErrorCallback = null,
+    userdata1: ?*shared.UserData = null,
+    userdata2: ?*shared.UserData = null
 };
 
 
