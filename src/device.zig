@@ -202,7 +202,7 @@ extern fn wgpuDeviceGetAdapterInfo(device: *Device) adapter.AdapterInfo;
 
 extern fn wgpuDeviceGetFeatures(device: *Device, features: *support.SupportedFeatures) usize;
 
-extern fn wgpuDeviceGetLimits(device: *Device, limits: *support.SupportedLimits) shared.Bool;
+extern fn wgpuDeviceGetLimits(device: *Device, limits: *support.Limits) shared.Bool;
 
 extern fn wgpuDeviceGetQueue(device: *Device) *queue.Queue;
 
