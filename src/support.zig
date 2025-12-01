@@ -28,6 +28,7 @@ pub const FeatureName = enum(u32) {
 };
 
 pub const Limits = extern struct {
+    next: ?*const shared.ChainedStructOut = null,
     max_texture_dimension_1d: u32 = maxInt(u32),
     max_texture_dimension_2d: u32 = maxInt(u32),
     max_texture_dimension_3d: u32 = maxInt(u32),
